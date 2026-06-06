@@ -146,8 +146,8 @@
         #arena {
             width: 85vw;
             max-width: 340px;
-            height: 32vh;
-            max-height: 240px;
+            height: 35vh;
+            max-height: 260px;
             background: radial-gradient(circle, #1a1a26 0%, #0f0f15 100%);
             border: 2px solid #ff0055;
             border-radius: 24px;
@@ -161,7 +161,6 @@
             margin: 10px 0;
         }
         
-        /* Animazione Terremoto (Screen Shake) */
         .shake {
             animation: screenShake 0.15s cubic-bezier(.36,.07,.19,.97) both;
         }
@@ -183,11 +182,166 @@
             background: rgba(0, 255, 204, 0.1);
             padding: 4px 12px;
             border-radius: 20px;
+            z-index: 5;
         }
-        #matteo {
-            font-size: 75px;
-            z-index: 2;
+
+        /* ENGINE GRAFICO: L'OMINO EVOLUTIVO CONTENITORE */
+        #character-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 200px;
+            height: 160px;
+            margin-top: 25px;
             transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Componenti del corpo base */
+        .char-head {
+            width: 34px;
+            height: 34px;
+            background: #ffdbac;
+            border-radius: 50%;
+            position: relative;
+            border: 2px solid #1c1c28;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            z-index: 4;
+            transition: all 0.3s ease;
+        }
+        .char-glasses {
+            display: none;
+            position: absolute;
+            top: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .char-body-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 100%;
+            height: 80px;
+            margin-top: -2px;
+        }
+        .char-torso {
+            width: 24px;
+            height: 55px;
+            background: #3a3a4f;
+            border-radius: 6px;
+            border: 2px solid #1c1c28;
+            z-index: 3;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .char-arm {
+            width: 10px;
+            height: 40px;
+            background: #ffdbac;
+            border: 2px solid #1c1c28;
+            border-radius: 5px;
+            position: absolute;
+            top: 2px;
+            z-index: 2;
+            transform-origin: top center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .char-arm.left { left: 74px; }
+        .char-arm.right { right: 74px; }
+
+        /* MODIFICATORI DELLE FASI MUSCOLARI */
+        /* 1. Fase Secco: Braccia tese e sottili */
+        .fase-secco .char-arm.left { transform: rotate(10deg); }
+        .fase-secco .char-arm.right { transform: rotate(-10deg); }
+
+        /* 2. Fase Fit: Torso si allarga, braccia si flettono e spuntano gli occhiali */
+        .fase-fit .char-torso {
+            width: 38px;
+            background: #ffdbac;
+            border-radius: 8px 8px 4px 4px;
+        }
+        .fase-fit .char-glasses { display: block; }
+        .fase-fit .char-arm {
+            width: 13px;
+            height: 42px;
+            background: #ffdbac;
+        }
+        .fase-fit .char-arm.left { left: 66px; transform: rotate(35deg); }
+        .fase-fit .char-arm.right { right: 66px; transform: rotate(-35deg); }
+
+        /* 3. Fase Grosso: Torso a V massiccio, bicipiti enormi alzati */
+        .fase-grosso .char-torso {
+            width: 55px;
+            height: 58px;
+            background: #ffdbac;
+            border-radius: 14px 14px 4px 4px;
+            box-shadow: inset 0 8px 0 rgba(0,0,0,0.05);
+        }
+        .fase-grosso .char-head {
+            transform: scale(1.05);
+            background: #ffdbac;
+        }
+        .fase-grosso .char-glasses { display: block; font-size: 16px; top: 6px;}
+        .fase-grosso .char-arm {
+            width: 22px;
+            height: 45px;
+            background: #ffdbac;
+            border-radius: 10px;
+            border-color: #000;
+        }
+        .fase-grosso .char-arm.left { left: 52px; transform: rotate(110deg) translateY(-5px); }
+        .fase-grosso .char-arm.right { right: 52px; transform: rotate(-110deg) translateY(-5px); }
+
+        /* 4. Fase Distruttore: Massa colossale, aura elettrica e pulsazioni */
+        .fase-distruttore .char-torso {
+            width: 75px;
+            height: 62px;
+            background: #e0a96d;
+            border-color: #ff0055;
+            border-radius: 18px 18px 6px 6px;
+        }
+        .fase-distruttore .char-head {
+            transform: scale(1.15);
+            background: #e0a96d;
+            border-color: #ff0055;
+        }
+        .fase-distruttore .char-glasses { display: block; font-size: 18px; top: 6px; }
+        .fase-distruttore .char-arm {
+            width: 32px;
+            height: 50px;
+            background: #e0a96d;
+            border-color: #ff0055;
+            border-radius: 14px;
+        }
+        .fase-distruttore .char-arm.left { left: 38px; transform: rotate(125deg) translateY(-8px); }
+        .fase-distruttore .char-arm.right { right: 38px; transform: rotate(-125deg) translateY(-8px); }
+        
+        /* Animazione speciale per lo stato di massima potenza */
+        .fase-distruttore {
+            animation: superGlow 0.5s ease-in-out infinite alternate;
+        }
+        @keyframes superGlow {
+            0% { filter: drop-shadow(0 0 4px #ff0055); }
+            100% { filter: drop-shadow(0 0 16px #ff0055) drop-shadow(0 0 2px #ffcc00); }
+        }
+
+        /* Schermata Finale Dio della Manhattan */
+        .fase-dio #character-wrapper { transform: scale(1.2); }
+        .fase-dio .char-torso { width: 90px; background: linear-gradient(to bottom, #ffcc00, #ff0055); border-color: #fff; }
+        .fase-dio .char-head { background: #ffcc00; border-color: #fff; }
+        .fase-dio .char-glasses { display: block; font-size: 20px; }
+        .fase-dio .char-arm { width: 38px; height: 55px; background: linear-gradient(to top, #ffcc00, #ff0055); border-color: #fff; }
+        .fase-dio .char-arm.left { left: 22px; transform: rotate(130deg); }
+        .fase-dio .char-arm.right { right: 22px; transform: rotate(-130deg); }
+        .fase-dio { animation: godGlow 0.3s ease-in-out infinite alternate; }
+        @keyframes godGlow {
+            0% { filter: drop-shadow(0 0 10px #ffcc00); }
+            100% { filter: drop-shadow(0 0 25px #00ffcc); }
         }
 
         /* Fumetto degli Insulti */
@@ -273,7 +427,7 @@
             flex-direction: column;
             gap: 8px;
             border-radius: 24px 24px 0 0;
-            max-height: 35vh;
+            max-height: 32vh;
             overflow-y: auto;
         }
         .btn-shop {
@@ -309,6 +463,64 @@
             margin-top: 2px;
             margin-bottom: 5px;
         }
+
+        /* POP-UP GRAFICO PERSONALIZZATO (MODAL) */
+        #custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #custom-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: #14141f;
+            width: 85vw;
+            max-width: 320px;
+            padding: 25px 20px;
+            border-radius: 24px;
+            border: 2px solid #ff0055;
+            box-shadow: 0 0 30px rgba(255, 0, 85, 0.3);
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #custom-modal.show .modal-content {
+            transform: scale(1);
+        }
+        .modal-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #ffffff;
+            margin-bottom: 22px;
+            font-weight: 500;
+        }
+        .modal-btn {
+            background: linear-gradient(135deg, #00ffcc 0%, #00a3ff 100%);
+            border: none;
+            color: #0d0d13;
+            padding: 12px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+            cursor: pointer;
+            width: 100%;
+        }
+        .modal-btn:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
@@ -318,6 +530,14 @@
         <div class="loader-title">Andretta:<br>Manhattan Destroyer</div>
         <div class="loader-subtitle">Caricamento bicipiti in corso...</div>
         <div class="loader-spinner"></div>
+    </div>
+
+    <!-- NUOVO POP-UP PERSONALIZZATO -->
+    <div id="custom-modal">
+        <div class="modal-content">
+            <div id="modal-msg" class="modal-text">Messaggio di test</div>
+            <button class="modal-btn" onclick="chiudiModal()">OK</button>
+        </div>
     </div>
 
     <header>
@@ -340,7 +560,20 @@
 
     <div id="arena">
         <div id="nome-palestra">Livello 1: Ingresso Manhattan 🧱</div>
-        <div id="matteo">🧍‍♂️</div>
+        
+        <!-- STRUTTURA GRAFICA DELL'OMINO EVOLUTIVO -->
+        <div id="character-wrapper" class="fase-secco">
+            <div class="char-head">
+                😐
+                <div class="char-glasses">😎</div>
+            </div>
+            <div class="char-body-container">
+                <div class="char-arm left"></div>
+                <div class="char-torso"></div>
+                <div class="char-arm right"></div>
+            </div>
+        </div>
+
         <div id="esplosione">💥</div>
     </div>
 
@@ -384,8 +617,8 @@
         let comboHits = 0;
         let ultimoClickTime = 0;
         let moltiplicatoreCombo = 1.0;
+        let modalAttivo = false;
 
-        // Nomi dei livelli aggiornati secondo le tue preferenze
         const palestre = [
             "Livello 1: Ingresso Manhattan 🧱",
             "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
@@ -477,7 +710,7 @@
         }
 
         function allenaMatteo(e) {
-            if (livelloPalestra > 3) return;
+            if (livelloPalestra > 3 || modalAttivo) return;
             
             let ora = Date.now();
             
@@ -501,6 +734,12 @@
 
             creaTestoFluttuante("+" + guadagnoEffettivo + "kg");
             aggiornaBarraCombo();
+
+            const wrapper = document.getElementById("character-wrapper");
+            wrapper.style.transform = "scale(0.92)";
+            setTimeout(() => { 
+                wrapper.style.transform = "scale(1)"; 
+            }, 600);
 
             const arena = document.getElementById("arena");
             arena.classList.add("shake");
@@ -549,6 +788,7 @@
         }, 300);
 
         function lanciaInsulto() {
+            if(modalAttivo) return;
             const fumetto = document.getElementById("fumetto");
             const insultoCasuale = insulti[Math.floor(Math.random() * insulti.length)];
             fumetto.innerText = insultoCasuale;
@@ -572,12 +812,13 @@
             el.innerText = testo;
             if (moltiplicatoreCombo >= 2) el.style.color = "#ff0055"; 
             el.style.left = (Math.random() * 40 + 30) + "%";
-            el.style.top = (Math.random() * 30 + 30) + "%";
+            el.style.top = (Math.random() * 30 + 20) + "%";
             arena.appendChild(el);
             setTimeout(() => el.remove(), 600);
         }
 
         function compraUpgrade(tipo) {
+            if (modalAttivo) return;
             if (tipo === 1 && forza >= costoCintura) {
                 forza -= costoCintura;
                 kgAlSecondo += 1;
@@ -604,19 +845,47 @@
         }
 
         setInterval(() => {
-            if (kgAlSecondo > 0 && livelloPalestra <= 3) {
+            if (kgAlSecondo > 0 && livelloPalestra <= 3 && !modalAttivo) {
                 forza += kgAlSecondo;
                 aggiornaGrafica();
                 controllaEsplosione();
             }
         }, 1000);
 
-        setInterval(() => {
-            salvaProgressi();
-        }, 2000);
+        function mostraModal(testo) {
+            modalAttivo = true;
+            document.getElementById("modal-msg").innerText = testo;
+            document.getElementById("custom-modal").classList.add("show");
+        }
 
-        // LOGICA DI CONTROLLO LIVELLI E POP-UP RIMASTERIZZATA
+        function chiudiModal() {
+            document.getElementById("custom-modal").classList.remove("show");
+            modalAttivo = false;
+            
+            if (livelloPalestra === 1) {
+                livelloPalestra = 2;
+                kgPerClickBase += 3;
+                document.getElementById("nome-palestra").innerText = palestre[1];
+                document.getElementById("arena").style.borderColor = "#00ffcc";
+            } else if (livelloPalestra === 2) {
+                livelloPalestra = 3;
+                kgPerClickBase += 3;
+                document.getElementById("nome-palestra").innerText = palestre[2];
+                document.getElementById("arena").style.borderColor = "#ffcc00";
+            } else if (livelloPalestra === 3) {
+                livelloPalestra = 4;
+                forza = 999999;
+                kgAlSecondo = 0;
+                document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
+                document.getElementById("arena").style.borderColor = "#ff0055";
+            }
+            
+            salvaProgressi();
+            aggiornaGrafica();
+        }
+
         function controllaEsplosione() {
+            if (modalAttivo) return;
             let traguardo = targetForza[livelloPalestra - 1];
             if (forza >= traguardo && livelloPalestra <= 3) {
                 forza = 0; 
@@ -628,29 +897,12 @@
                 setTimeout(() => {
                     esp.style.display = "none";
                     if (livelloPalestra === 1) {
-                        alert("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastazione ha inizio...");
-                        livelloPalestra++;
-                        kgPerClickBase += 3; 
-                        document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
-                        document.getElementById("arena").style.borderColor = "#00ffcc";
-                        salvaProgressi();
+                        mostraModal("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastatione ha inizio...");
                     } else if (livelloPalestra === 2) {
-                        alert("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
-                        livelloPalestra++;
-                        kgPerClickBase += 3; 
-                        document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
-                        document.getElementById("arena").style.borderColor = "#ffcc00";
-                        salvaProgressi();
+                        mostraModal("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
                     } else {
-                        alert("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
-                        livelloPalestra = 4;
-                        forza = 999999;
-                        kgAlSecondo = 0;
-                        document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
-                        document.getElementById("arena").style.borderColor = "#ff0055";
-                        salvaProgressi();
+                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
                     }
-                    aggiornaGrafica();
                 }, 500);
             }
         }
@@ -665,33 +917,37 @@
             document.getElementById("costo3").innerText = costoCoach + " kg";
             document.getElementById("costo4").innerText = costoGhisa + " kg";
 
-            document.getElementById("upgrade1").disabled = (forza < costoCintura || livelloPalestra > 3);
-            document.getElementById("upgrade2").disabled = (forza < costoShaker || livelloPalestra > 3);
-            document.getElementById("upgrade3").disabled = (forza < costoCoach || livelloPalestra > 3);
-            document.getElementById("upgrade4").disabled = (forza < costoGhisa || livelloPalestra > 3);
+            document.getElementById("upgrade1").disabled = (forza < costoCintura || livelloPalestra > 3 || modalAttivo);
+            document.getElementById("upgrade2").disabled = (forza < costoShaker || livelloPalestra > 3 || modalAttivo);
+            document.getElementById("upgrade3").disabled = (forza < costoCoach || livelloPalestra > 3 || modalAttivo);
+            document.getElementById("upgrade4").disabled = (forza < costoGhisa || livelloPalestra > 3 || modalAttivo);
 
-            const matteo = document.getElementById("matteo");
+            const wrapper = document.getElementById("character-wrapper");
+            const head = wrapper.querySelector(".char-head");
+
+            // Stato finale: Dio della Manhattan
             if (livelloPalestra > 3) {
-                matteo.innerText = "👑🔱👑";
-                matteo.style.transform = "scale(1.5)";
+                wrapper.className = "fase-dio";
+                head.innerHTML = "👑<div class='char-glasses'>😎</div>";
                 return;
             }
 
             let traguardo = targetForza[livelloPalestra - 1];
             let percentuale = (forza / traguardo) * 100;
 
+            // Aggiornamento dinamico delle classi muscolari e dell'espressione
             if (percentuale < 30) {
-                matteo.innerText = "🧍‍♂️";
-                matteo.style.transform = "scale(1)";
+                wrapper.className = "fase-secco";
+                head.innerHTML = "😐<div class='char-glasses'>😎</div>";
             } else if (percentuale >= 30 && percentuale < 60) {
-                matteo.innerText = "💪😎💪";
-                matteo.style.transform = "scale(1.2)";
+                wrapper.className = "fase-fit";
+                head.innerHTML = "😏<div class='char-glasses'>😎</div>";
             } else if (percentuale >= 60 && percentuale < 90) {
-                matteo.innerText = "🏋️‍♂️🔥";
-                matteo.style.transform = "scale(1.4)";
+                wrapper.className = "fase-grosso";
+                head.innerHTML = "😡<div class='char-glasses'>😎</div>";
             } else {
-                matteo.innerText = "😡⚡";
-                matteo.style.transform = "scale(1.6)";
+                wrapper.className = "fase-distruttore";
+                head.innerHTML = "🤬<div class='char-glasses'>😎</div>";
             }
         }
     </script>
