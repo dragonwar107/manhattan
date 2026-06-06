@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Tag PWA per App su Telefono -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d0d13">
@@ -255,11 +254,11 @@
         .char-arm.right { right: 74px; }
 
         /* MODIFICATORI DELLE FASI MUSCOLARI */
-        /* 1. Fase Secco: Braccia tese e sottili */
+        /* 1. Fase Secco */
         .fase-secco .char-arm.left { transform: rotate(10deg); }
         .fase-secco .char-arm.right { transform: rotate(-10deg); }
 
-        /* 2. Fase Fit: Torso si allarga, braccia si flettono e spuntano gli occhiali */
+        /* 2. Fase Fit */
         .fase-fit .char-torso {
             width: 38px;
             background: #ffdbac;
@@ -274,7 +273,7 @@
         .fase-fit .char-arm.left { left: 66px; transform: rotate(35deg); }
         .fase-fit .char-arm.right { right: 66px; transform: rotate(-35deg); }
 
-        /* 3. Fase Grosso: Torso a V massiccio, bicipiti enormi alzati */
+        /* 3. Fase Grosso */
         .fase-grosso .char-torso {
             width: 55px;
             height: 58px;
@@ -297,7 +296,7 @@
         .fase-grosso .char-arm.left { left: 52px; transform: rotate(110deg) translateY(-5px); }
         .fase-grosso .char-arm.right { right: 52px; transform: rotate(-110deg) translateY(-5px); }
 
-        /* 4. Fase Distruttore: Massa colossale, aura elettrica e pulsazioni */
+        /* 4. Fase Distruttore */
         .fase-distruttore .char-torso {
             width: 75px;
             height: 62px;
@@ -321,7 +320,6 @@
         .fase-distruttore .char-arm.left { left: 38px; transform: rotate(125deg) translateY(-8px); }
         .fase-distruttore .char-arm.right { right: 38px; transform: rotate(-125deg) translateY(-8px); }
         
-        /* Animazione speciale per lo stato di massima potenza */
         .fase-distruttore {
             animation: superGlow 0.5s ease-in-out infinite alternate;
         }
@@ -416,6 +414,12 @@
             transition: transform 0.05s;
         }
         .btn-allena:active { transform: scale(0.92); }
+        .btn-allena:disabled {
+            background: #2a2a3a;
+            color: #5a5a6a;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
 
         /* Area Shop Inferiore */
         .shop {
@@ -525,17 +529,15 @@
 </head>
 <body>
 
-    <!-- Schermata di Caricamento -->
     <div id="loading-screen">
         <div class="loader-title">Andretta:<br>Manhattan Destroyer</div>
         <div class="loader-subtitle">Caricamento bicipiti in corso...</div>
         <div class="loader-spinner"></div>
     </div>
 
-    <!-- NUOVO POP-UP PERSONALIZZATO -->
     <div id="custom-modal">
         <div class="modal-content">
-            <div id="modal-msg" class="modal-text">Messaggio di test</div>
+            <div id="modal-msg" class="modal-text">Messaggio</div>
             <button class="modal-btn" onclick="chiudiModal()">OK</button>
         </div>
     </div>
@@ -549,19 +551,16 @@
         </div>
     </header>
 
-    <!-- Barra delle Combo -->
     <div class="combo-container">
         <div id="combo-bar" class="combo-bar"></div>
         <div id="combo-text" class="combo-text">Combo: x1.0</div>
     </div>
 
-    <!-- Fumetto degli Insulti -->
     <div id="fumetto">Sei solo un secco! 😡</div>
 
     <div id="arena">
         <div id="nome-palestra">Livello 1: Ingresso Manhattan 🧱</div>
         
-        <!-- STRUTTURA GRAFICA DELL'OMINO EVOLUTIVO -->
         <div id="character-wrapper" class="fase-secco">
             <div class="char-head">
                 😐
@@ -684,6 +683,7 @@
             } else {
                 document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
                 document.getElementById("arena").style.borderColor = "#ff0055";
+                document.getElementById("main-clicker").disabled = true;
             }
             aggiornaGrafica();
 
@@ -739,7 +739,7 @@
             wrapper.style.transform = "scale(0.92)";
             setTimeout(() => { 
                 wrapper.style.transform = "scale(1)"; 
-            }, 600);
+            }, 100);
 
             const arena = document.getElementById("arena");
             arena.classList.add("shake");
@@ -749,6 +749,7 @@
                 lanciaInsulto();
             }
 
+            salvaProgressi(); 
             controllaEsplosione();
         }
 
@@ -781,9 +782,10 @@
                 if (comboHits < 5) moltiplicatoreCombo = 1.0;
                 else if (comboHits >= 5 && comboHits < 15) moltiplicatoreCombo = 1.5;
                 else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
+                else moltiplicatoreCombo = 3.0;
 
                 aggiornaBarraCombo();
-                aggiornaGrafica();
+                aggiornaGrafica(); // Aggiorna dinamicamente la potenza visiva del click mentre decade
             }
         }, 300);
 
@@ -848,6 +850,7 @@
             if (kgAlSecondo > 0 && livelloPalestra <= 3 && !modalAttivo) {
                 forza += kgAlSecondo;
                 aggiornaGrafica();
+                salvaProgressi(); 
                 controllaEsplosione();
             }
         }, 1000);
@@ -878,16 +881,17 @@
                 kgAlSecondo = 0;
                 document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
                 document.getElementById("arena").style.borderColor = "#ff0055";
+                document.getElementById("main-clicker").disabled = true;
             }
             
-            salvaProgressi();
+            salvaProgressi(); 
             aggiornaGrafica();
         }
 
         function controllaEsplosione() {
-            if (modalAttivo) return;
+            if (modalAttivo || livelloPalestra > 3) return; // Fix di sicurezza out-of-bound
             let traguardo = targetForza[livelloPalestra - 1];
-            if (forza >= traguardo && livelloPalestra <= 3) {
+            if (forza >= traguardo) {
                 forza = 0; 
                 playSuono(90, 'sawtooth', 0.6); 
                 
@@ -897,11 +901,11 @@
                 setTimeout(() => {
                     esp.style.display = "none";
                     if (livelloPalestra === 1) {
-                        mostraModal("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastatione ha inizio...");
+                        mostraModal("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastazione ha inizio...");
                     } else if (livelloPalestra === 2) {
                         mostraModal("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
                     } else {
-                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
+                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrated! 🏋️‍♂️💥🥊");
                     }
                 }, 500);
             }
@@ -925,7 +929,6 @@
             const wrapper = document.getElementById("character-wrapper");
             const head = wrapper.querySelector(".char-head");
 
-            // Stato finale: Dio della Manhattan
             if (livelloPalestra > 3) {
                 wrapper.className = "fase-dio";
                 head.innerHTML = "👑<div class='char-glasses'>😎</div>";
@@ -935,7 +938,6 @@
             let traguardo = targetForza[livelloPalestra - 1];
             let percentuale = (forza / traguardo) * 100;
 
-            // Aggiornamento dinamico delle classi muscolari e dell'espressione
             if (percentuale < 30) {
                 wrapper.className = "fase-secco";
                 head.innerHTML = "😐<div class='char-glasses'>😎</div>";
