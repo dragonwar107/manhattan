@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Tag PWA per App su Telefono -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d0d13">
+    
+    <title>Andretta: Manhattan Destroyer</title>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #0d0d13;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Schermata di Caricamento */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d0d13;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .loader-title {
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff0055, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .loader-subtitle {
+            font-size: 14px;
+            color: #8a8a93;
+            margin-bottom: 30px;
+        }
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 0, 85, 0.1);
+            border-radius: 50%;
+            border-top-color: #ff0055;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Header e Statistiche */
+        header {
+            width: 100%;
+            text-align: center;
+            padding-top: 15px;
+        }
+        h1 {
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 8px 0;
+            background: linear-gradient(45deg, #ff0055, #00ffcc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 8px rgba(255,0,85,0.3));
+        }
+        .stats-box {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+        }
+        .stat { font-size: 12px; color: #8a8a93; }
+        .stat span { display: block; font-size: 16px; color: #fff; font-weight: bold; margin-top: 2px; }
+        .stat #forza { color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
+
+        /* Sistema Combo UI */
+        .combo-container {
+            width: 85vw;
+            max-width: 340px;
+            margin: 8px auto 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            height: 18px;
+            border-radius: 9px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .combo-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ffcc, #ff0055);
+            transition: width 0.1s linear;
+        }
+        .combo-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Schermata Centrale di Gioco */
+        #arena {
+            width: 85vw;
+            max-width: 340px;
+            height: 32vh;
+            max-height: 240px;
+            background: radial-gradient(circle, #1a1a26 0%, #0f0f15 100%);
+            border: 2px solid #ff0055;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.15);
+            margin: 10px 0;
+        }
+        
+        /* Animazione Terremoto (Screen Shake) */
+        .shake {
+            animation: screenShake 0.15s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes screenShake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(3px, -2px, 0); }
+            30%, 50%, 70% { transform: translate3d(-5px, 3px, 0); }
+            40%, 60% { transform: translate3d(5px, -1px, 0); }
+        }
+
+        #nome-palestra {
+            position: absolute;
+            top: 15px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: #00ffcc;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: rgba(0, 255, 204, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        #matteo {
+            font-size: 75px;
+            z-index: 2;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Fumetto degli Insulti */
+        #fumetto {
+            position: absolute;
+            bottom: 150px;
+            background: #ffffff;
+            color: #000000;
+            padding: 8px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: bold;
+            max-width: 220px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+        #fumetto::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* Floating Text (+1 kg) */
+        .floating-text {
+            position: absolute;
+            color: #00ffcc;
+            font-weight: bold;
+            font-size: 24px;
+            pointer-events: none;
+            z-index: 10;
+            animation: floatUp 0.6s ease-out forwards;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+        }
+
+        /* Pulsante Principale */
+        .action-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 5px;
+        }
+        .btn-allena {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #ff0055 0%, #7000ff 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 8px 25px rgba(112, 0, 255, 0.4), inset 0 4px 10px rgba(255,255,255,0.3);
+            cursor: pointer;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.05s;
+        }
+        .btn-allena:active { transform: scale(0.92); }
+
+        /* Area Shop Inferiore */
+        .shop {
+            width: 100%;
+            background: #14141f;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-radius: 24px 24px 0 0;
+            max-height: 35vh;
+            overflow-y: auto;
+        }
+        .btn-shop {
+            background: #1c1c28;
+            border: 1px solid rgba(255, 204, 0, 0.15);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            min-height: 44px;
+        }
+        .btn-shop:disabled {
+            background: #111118;
+            border-color: transparent;
+            color: #4a4a52;
+        }
+        .btn-shop b { color: #ffcc00; }
+        .btn-shop:disabled b { color: #4a4a52; }
+
+        #esplosione { display: none; font-size: 140px; position: absolute; z-index: 5; }
+        
+        .reset-btn {
+            background: transparent;
+            border: none;
+            color: #4a4a52;
+            font-size: 10px;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 2px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Schermata di Caricamento -->
+    <div id="loading-screen">
+        <div class="loader-title">Andretta:<br>Manhattan Destroyer</div>
+        <div class="loader-subtitle">Caricamento bicipiti in corso...</div>
+        <div class="loader-spinner"></div>
+    </div>
+
+    <header>
+        <h1>Andretta: Manhattan Destroyer</h1>
+        <div class="stats-box">
+            <div class="stat">Forza <span><b id="forza">0</b> kg</span></div>
+            <div class="stat">Rendita <span>+<b id="passivo">0</b> kg/s</span></div>
+            <div class="stat">Click <span><b id="click-power">1</b> kg</span></div>
+        </div>
+    </header>
+
+    <!-- Barra delle Combo -->
+    <div class="combo-container">
+        <div id="combo-bar" class="combo-bar"></div>
+        <div id="combo-text" class="combo-text">Combo: x1.0</div>
+    </div>
+
+    <!-- Fumetto degli Insulti -->
+    <div id="fumetto">Sei solo un secco! 😡</div>
+
+    <div id="arena">
+        <div id="nome-palestra">Livello 1: Ingresso Manhattan 🧱</div>
+        <div id="matteo">🧍‍♂️</div>
+        <div id="esplosione">💥</div>
+    </div>
+
+    <div class="action-area">
+        <button class="btn-allena" id="main-clicker">SPACCA!🏋️‍♂️</button>
+    </div>
+
+    <button class="reset-btn" onclick="resetGioco()">Azzera Progressi</button>
+
+    <div class="shop">
+        <button class="btn-shop" id="upgrade1" onclick="compraUpgrade(1)">
+            <span>🎒 Cintura Lifter (+1 kg/s)</span> <b id="costo1">50 kg</b>
+        </button>
+        <button class="btn-shop" id="upgrade2" onclick="compraUpgrade(2)">
+            <span>🥤 Shaker Proteico (+5 kg/s)</span> <b id="costo2">250 kg</b>
+        </button>
+        <button class="btn-shop" id="upgrade3" onclick="compraUpgrade(3)">
+            <span>🔥 Sguardo del Coach (+25 kg/s)</span> <b id="costo3">1200 kg</b>
+        </button>
+        <button class="btn-shop" id="upgrade4" onclick="compraUpgrade(4)">
+            <span>🛠️ Ghisa Abusiva (+2 kg per Click)</span> <b id="costo4">600 kg</b>
+        </button>
+    </div>
+
+    <script>
+        // Blocco gesture zoom nativo iOS
+        document.addEventListener('gesturestart', function (e) {
+            e.preventDefault();
+        });
+
+        let forza = 0;
+        let kgPerClickBase = 1;
+        let kgAlSecondo = 0;
+        let livelloPalestra = 1;
+        
+        let costoCintura = 50;
+        let costoShaker = 250;
+        let costoCoach = 1200;
+        let costoGhisa = 600;
+
+        let comboHits = 0;
+        let ultimoClickTime = 0;
+        let moltiplicatoreCombo = 1.0;
+
+        const palestre = [
+            "Livello 1: Ingresso Manhattan 🧱",
+            "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
+            "Livello Finale: Il Core della Manhattan ☢️"
+        ];
+        const targetForza = [150, 500, 1500]; 
+
+        const insulti = [
+            "Sei solo un secco di m***a! 😡",
+            "SPINGI QUEL BILANCIERE CHRISTIAN!",
+            "SPINGI QUEL BILANCIERE LUIGI!",
+            "Ma cosa fai? Mangi solo insalatina? 🥗",
+            "Le tue braccia sembrano grissini! 🥖",
+            "Meno chiacchiere e più ghisa! 🤬",
+            "Stai facendo riscaldamento con i pesi delle Barbie? 🎀",
+            "Guarda che le vene si devono gonfiare! ⚡",
+            "Se non svieni a fine serie, stai barando! 💀"
+        ];
+
+        let fumettoTimeout;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function caricaSalvataggi() {
+            if (localStorage.getItem('andretta_forza') !== null) {
+                forza = parseInt(localStorage.getItem('andretta_forza'));
+                kgPerClickBase = parseInt(localStorage.getItem('andretta_kgclick'));
+                kgAlSecondo = parseInt(localStorage.getItem('andretta_kgsecondo'));
+                livelloPalestra = parseInt(localStorage.getItem('andretta_livello'));
+                costoCintura = parseInt(localStorage.getItem('andretta_costo1'));
+                costoShaker = parseInt(localStorage.getItem('andretta_costo2'));
+                costoCoach = parseInt(localStorage.getItem('andretta_costo3'));
+                costoGhisa = parseInt(localStorage.getItem('andretta_costo4'));
+                
+                if(livelloPalestra > 3) livelloPalestra = 4;
+            }
+        }
+
+        function salvaProgressi() {
+            if (livelloPalestra > 3) return;
+            localStorage.setItem('andretta_forza', forza);
+            localStorage.setItem('andretta_kgclick', kgPerClickBase);
+            localStorage.setItem('andretta_kgsecondo', kgAlSecondo);
+            localStorage.setItem('andretta_livello', livelloPalestra);
+            localStorage.setItem('andretta_costo1', costoCintura);
+            localStorage.setItem('andretta_costo2', costoShaker);
+            localStorage.setItem('andretta_costo3', costoCoach);
+            localStorage.setItem('andretta_costo4', costoGhisa);
+        }
+
+        function resetGioco() {
+            if(confirm("Sei sicuro di voler azzerare tutti i bicipiti e ricominciare da zero?")) {
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            caricaSalvataggi();
+            
+            if(livelloPalestra <= 3) {
+                document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
+                document.getElementById("arena").style.borderColor = livelloPalestra === 2 ? "#00ffcc" : (livelloPalestra === 3 ? "#ffcc00" : "#ff0055");
+            } else {
+                document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
+                document.getElementById("arena").style.borderColor = "#ff0055";
+            }
+            aggiornaGrafica();
+
+            setTimeout(() => {
+                const loader = document.getElementById('loading-screen');
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            }, 1500); 
+        });
+
+        function playSuono(freq, tipo, duration) {
+            try {
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = tipo;
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e){}
+        }
+
+        function allenaMatteo(e) {
+            if (livelloPalestra > 3) return;
+            
+            let ora = Date.now();
+            
+            if (ora - ultimoClickTime < 1000) {
+                comboHits += 1;
+            } else {
+                comboHits = 1;
+            }
+            ultimoClickTime = ora;
+
+            if (comboHits < 5) moltiplicatoreCombo = 1.0;
+            else if (comboHits >= 5 && comboHits < 15) moltiplicatoreCombo = 1.5;
+            else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
+            else moltiplicatoreCombo = 3.0;
+
+            let guadagnoEffettivo = Math.round(kgPerClickBase * moltiplicatoreCombo);
+            forza += guadagnoEffettivo;
+            
+            aggiornaGrafica();
+            playSuono(500 + (Math.min(comboHits, 40) * 5), 'sine', 0.04); 
+
+            creaTestoFluttuante("+" + guadagnoEffettivo + "kg");
+            aggiornaBarraCombo();
+
+            const arena = document.getElementById("arena");
+            arena.classList.add("shake");
+            setTimeout(() => { arena.classList.remove("shake"); }, 150);
+
+            if (Math.random() < 0.15) {
+                lanciaInsulto();
+            }
+
+            controllaEsplosione();
+        }
+
+        const mainBtn = document.getElementById("main-clicker");
+        mainBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault(); 
+            allenaMatteo(e);
+        }, {passive: false});
+        
+        mainBtn.addEventListener('click', function(e) {
+            if(e.screenX === 0 && e.screenY === 0) return; 
+            allenaMatteo(e);
+        });
+
+        function aggiornaBarraCombo() {
+            const bar = document.getElementById("combo-bar");
+            const txt = document.getElementById("combo-text");
+            
+            let percentualeBarra = Math.min((comboHits / 30) * 100, 100);
+            bar.style.width = percentualeBarra + "%";
+            txt.innerText = `Combo: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
+        }
+
+        setInterval(() => {
+            let ora = Date.now();
+            if (ora - ultimoClickTime > 1200 && comboHits > 0) {
+                comboHits = Math.floor(comboHits * 0.6) - 1;
+                if (comboHits < 0) comboHits = 0;
+                
+                if (comboHits < 5) moltiplicatoreCombo = 1.0;
+                else if (comboHits >= 5 && comboHits < 15) moltiplicatoreCombo = 1.5;
+                else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
+
+                aggiornaBarraCombo();
+                aggiornaGrafica(); // Forza l'aggiornamento grafico del counter click ridotto
+            }
+        }, 300);
+
+        function lanciaInsulto() {
+            const fumetto = document.getElementById("fumetto");
+            const insultoCasuale = insulti[Math.floor(Math.random() * insulti.length)];
+            fumetto.innerText = insultoCasuale;
+            
+            fumetto.style.opacity = "1";
+            fumetto.style.transform = "scale(1)";
+            
+            playSuono(300, 'triangle', 0.08); 
+
+            clearTimeout(fumettoTimeout);
+            fumettoTimeout = setTimeout(() => {
+                fumetto.style.opacity = "0";
+                fumetto.style.transform = "scale(0.8)";
+            }, 1500);
+        }
+
+        function creaTestoFluttuante(testo) {
+            const arena = document.getElementById("arena");
+            const el = document.createElement("div");
+            el.className = "floating-text";
+            el.innerText = testo;
+            if (moltiplicatoreCombo >= 2) el.style.color = "#ff0055"; 
+            el.style.left = (Math.random() * 40 + 30) + "%";
+            el.style.top = (Math.random() * 30 + 30) + "%";
+            arena.appendChild(el);
+            setTimeout(() => el.remove(), 600);
+        }
+
+        function compraUpgrade(tipo) {
+            if (tipo === 1 && forza >= costoCintura) {
+                forza -= costoCintura;
+                kgAlSecondo += 1;
+                costoCintura = Math.floor(costoCintura * 1.5);
+                playSuono(650, 'triangle', 0.1);
+            } else if (tipo === 2 && forza >= costoShaker) {
+                forza -= costoShaker;
+                kgAlSecondo += 5;
+                costoShaker = Math.floor(costoShaker * 1.6);
+                playSuono(850, 'triangle', 0.12);
+            } else if (tipo === 3 && forza >= costoCoach) { 
+                forza -= costoCoach;
+                kgAlSecondo += 25;
+                costoCoach = Math.floor(costoCoach * 1.7);
+                playSuono(950, 'sawtooth', 0.15);
+            } else if (tipo === 4 && forza >= costoGhisa) { 
+                forza -= costoGhisa;
+                kgPerClickBase += 2;
+                costoGhisa = Math.floor(costoGhisa * 1.8);
+                playSuono(1100, 'sine', 0.1);
+            }
+            aggiornaGrafica();
+            salvaProgressi();
+        }
+
+        setInterval(() => {
+            if (kgAlSecondo > 0 && livelloPalestra <= 3) {
+                forza += kgAlSecondo;
+                aggiornaGrafica();
+                controllaEsplosione();
+            }
+        }, 1000);
+
+        setInterval(() => {
+            salvaProgressi();
+        }, 2000);
+
+        function controllaEsplosione() {
+            let traguardo = targetForza[livelloPalestra - 1];
+            if (forza >= traguardo && livelloPalestra <= 3) {
+                forza = 0; 
+                playSuono(90, 'sawtooth', 0.6); 
+                
+                const esp = document.getElementById("esplosione");
+                esp.style.display = "block";
+                
+                setTimeout(() => {
+                    esp.style.display = "none";
+                    if (livelloPalestra < 3) {
+                        alert(`💥 CLAMOROSO! Matteo ha rasato al suolo l'${palestre[livelloPalestra-1].split(":")[1]}!`);
+                        livelloPalestra++;
+                        kgPerClickBase += 3; 
+                        document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
+                        document.getElementById("arena").style.borderColor = livelloPalestra === 2 ? "#00ffcc" : "#ffcc00";
+                        salvaProgressi();
+                    } else {
+                        alert("🏆 MANHATTAN DISTRUTTA! Matteo Andretta ha disintegrato completamente la palestra! Sei una leggenda intergalattica! 🏋️‍♂️💥🥊");
+                        livelloPalestra = 4;
+                        forza = 999999;
+                        kgAlSecondo = 0;
+                        document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
+                        document.getElementById("arena").style.borderColor = "#ff0055";
+                        salvaProgressi();
+                    }
+                    aggiornaGrafica();
+                }, 500);
+            }
+        }
+
+        function aggiornaGrafica() {
+            document.getElementById("forza").innerText = forza;
+            document.getElementById("passivo").innerText = kgAlSecondo;
+            document.getElementById("click-power").innerText = Math.round(kgPerClickBase * moltiplicatoreCombo);
+            
+            document.getElementById("costo1").innerText = costoCintura + " kg";
+            document.getElementById("costo2").innerText = costoShaker + " kg";
+            document.getElementById("costo3").innerText = costoCoach + " kg";
+            document.getElementById("costo4").innerText = costoGhisa + " kg";
+
+            document.getElementById("upgrade1").disabled = (forza < costoCintura || livelloPalestra > 3);
+            document.getElementById("upgrade2").disabled = (forza < costoShaker || livelloPalestra > 3);
+            document.getElementById("upgrade3").disabled = (forza < costoCoach || livelloPalestra > 3);
+            document.getElementById("upgrade4").disabled = (forza < costoGhisa || livelloPalestra > 3);
+
+            const matteo = document.getElementById("matteo");
+            if (livelloPalestra > 3) {
+                matteo.innerText = "👑🔱👑";
+                matteo.style.transform = "scale(1.5)";
+                return;
+            }
+
+            let traguardo = targetForza[livelloPalestra - 1];
+            let percentuale = (forza / traguardo) * 100;
+
+            if (percentuale < 30) {
+                matteo.innerText = "🧍‍♂️";
+                matteo.style.transform = "scale(1)";
+            } else if (percentuale >= 30 && percentuale < 60) {
+                matteo.innerText = "💪😎💪";
+                matteo.style.transform = "scale(1.2)";
+            } else if (percentuale >= 60 && percentuale < 90) {
+                matteo.innerText = "🏋️‍♂️🔥";
+                matteo.style.transform = "scale(1.4)";
+            } else {
+                matteo.innerText = "😡⚡";
+                matteo.style.transform = "scale(1.6)";
+            }
+        }
+    </script>
+</body>
+</html>
