@@ -681,7 +681,7 @@
                 document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
                 document.getElementById("arena").style.borderColor = livelloPalestra === 2 ? "#00ffcc" : (livelloPalestra === 3 ? "#ffcc00" : "#ff0055");
             } else {
-                document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
+                document.getElementById("nome-palestra").innerText = "MATTEO HA DISTRUTTO TUTTO 🏜️";
                 document.getElementById("arena").style.borderColor = "#ff0055";
                 document.getElementById("main-clicker").disabled = true;
             }
@@ -785,7 +785,7 @@
                 else moltiplicatoreCombo = 3.0;
 
                 aggiornaBarraCombo();
-                aggiornaGrafica(); // Aggiorna dinamicamente la potenza visiva del click mentre decade
+                aggiornaGrafica();
             }
         }, 300);
 
@@ -879,7 +879,7 @@
                 livelloPalestra = 4;
                 forza = 999999;
                 kgAlSecondo = 0;
-                document.getElementById("nome-palestra").innerText = "MANHATTAN ZERO 🏜️";
+                document.getElementById("nome-palestra").innerText = "MATTEO HA DISTRUTTO TUTTO 🏜️";
                 document.getElementById("arena").style.borderColor = "#ff0055";
                 document.getElementById("main-clicker").disabled = true;
             }
@@ -889,7 +889,7 @@
         }
 
         function controllaEsplosione() {
-            if (modalAttivo || livelloPalestra > 3) return; // Fix di sicurezza out-of-bound
+            if (modalAttivo || livelloPalestra > 3) return; 
             let traguardo = targetForza[livelloPalestra - 1];
             if (forza >= traguardo) {
                 forza = 0; 
@@ -905,7 +905,7 @@
                     } else if (livelloPalestra === 2) {
                         mostraModal("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
                     } else {
-                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrated! 🏋️‍♂️💥🥊");
+                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
                     }
                 }, 500);
             }
