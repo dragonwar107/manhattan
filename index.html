@@ -385,10 +385,11 @@
         let ultimoClickTime = 0;
         let moltiplicatoreCombo = 1.0;
 
+        // Nomi dei livelli aggiornati secondo le tue preferenze
         const palestre = [
             "Livello 1: Ingresso Manhattan 🧱",
             "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
-            "Livello Finale: Il Core della Manhattan ☢️"
+            "Livello Finale: Tutta la Manhattan 🏜️"
         ];
         const targetForza = [150, 500, 1500]; 
 
@@ -543,7 +544,7 @@
                 else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
 
                 aggiornaBarraCombo();
-                aggiornaGrafica(); // Forza l'aggiornamento grafico del counter click ridotto
+                aggiornaGrafica();
             }
         }, 300);
 
@@ -614,6 +615,7 @@
             salvaProgressi();
         }, 2000);
 
+        // LOGICA DI CONTROLLO LIVELLI E POP-UP RIMASTERIZZATA
         function controllaEsplosione() {
             let traguardo = targetForza[livelloPalestra - 1];
             if (forza >= traguardo && livelloPalestra <= 3) {
@@ -625,15 +627,22 @@
                 
                 setTimeout(() => {
                     esp.style.display = "none";
-                    if (livelloPalestra < 3) {
-                        alert(`💥 CLAMOROSO! Matteo ha rasato al suolo l'${palestre[livelloPalestra-1].split(":")[1]}!`);
+                    if (livelloPalestra === 1) {
+                        alert("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastazione ha inizio...");
                         livelloPalestra++;
                         kgPerClickBase += 3; 
                         document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
-                        document.getElementById("arena").style.borderColor = livelloPalestra === 2 ? "#00ffcc" : "#ffcc00";
+                        document.getElementById("arena").style.borderColor = "#00ffcc";
+                        salvaProgressi();
+                    } else if (livelloPalestra === 2) {
+                        alert("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
+                        livelloPalestra++;
+                        kgPerClickBase += 3; 
+                        document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
+                        document.getElementById("arena").style.borderColor = "#ffcc00";
                         salvaProgressi();
                     } else {
-                        alert("🏆 MANHATTAN DISTRUTTA! Matteo Andretta ha disintegrato completamente la palestra! Sei una leggenda intergalattica! 🏋️‍♂️💥🥊");
+                        alert("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
                         livelloPalestra = 4;
                         forza = 999999;
                         kgAlSecondo = 0;
