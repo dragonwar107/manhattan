@@ -8,19 +8,22 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0d0d13">
+    <meta name="theme-color" content="#1a73e8">
     
-    <title>Andretta: Manhattan Destroyer</title>
+    <title>Andretta: Gym Lifting Hero 3D</title>
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght=800;900&display=swap');
+
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
         }
         
         body {
-            background-color: #0d0d13;
+            background: linear-gradient(180deg, #1d71f2 0%, #0a40a4 100%);
             color: #ffffff;
             margin: 0;
             padding: 0;
@@ -36,550 +39,278 @@
         /* Schermata di Caricamento */
         #loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #0d0d13;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #2980b9 0%, #2c3e50 100%);
             z-index: 100;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: opacity 0.4s, visibility 0.4s;
         }
         .loader-title {
-            font-size: 26px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #ff0055, #00ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 36px;
+            color: #ffcc00;
             text-align: center;
-            padding: 0 20px;
-        }
-        .loader-subtitle {
-            font-size: 14px;
-            color: #8a8a93;
-            margin-bottom: 30px;
+            text-transform: uppercase;
+            -webkit-text-stroke: 2px #000;
+            text-shadow: 0 6px 0 #d35400;
         }
         .loader-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 0, 85, 0.1);
+            width: 50px; height: 50px;
+            border: 6px solid rgba(255,255,255,0.2);
             border-radius: 50%;
-            border-top-color: #ff0055;
-            animation: spin 1s linear infinite;
+            border-top-color: #ffcc00;
+            animation: spin 0.8s linear infinite;
+            margin-top: 20px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Header e Statistiche */
+        /* Titoli e Intestazione */
         header {
             width: 100%;
             text-align: center;
-            padding-top: 15px;
+            padding-top: 10px;
+            z-index: 10;
         }
         h1 {
-            font-size: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 22px;
+            color: #ffcc00;
+            margin: 0 0 6px 0;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0 0 8px 0;
-            background: linear-gradient(45deg, #ff0055, #00ffcc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 8px rgba(255,0,85,0.3));
+            -webkit-text-stroke: 1.5px #0a2266;
+            text-shadow: 0 4px 0 #ca8a04;
         }
-        .stats-box {
+        
+        .stats-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
+            gap: 10px;
+            width: 92vw;
+            max-width: 360px;
+            margin: 0 auto;
         }
-        .stat { font-size: 12px; color: #8a8a93; }
-        .stat span { display: block; font-size: 16px; color: #fff; font-weight: bold; margin-top: 2px; }
-        .stat #forza { color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
+        .stat-card {
+            background: #ffffff;
+            padding: 6px 10px;
+            border-radius: 14px;
+            box-shadow: 0 5px 0 #0f3580;
+            border: 2px solid #0f3580;
+            flex: 1;
+            text-align: center;
+            font-size: 11px;
+            color: #3b82f6;
+            text-transform: uppercase;
+        }
+        .stat-card span {
+            display: block;
+            font-size: 15px;
+            color: #1e293b;
+            margin-top: 1px;
+        }
+        .stat-card span b { color: #e11d48; }
 
-        /* Sistema Combo UI */
+        /* Barra Moltiplicatore Combo */
         .combo-container {
-            width: 85vw;
-            max-width: 340px;
-            margin: 8px auto 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            height: 18px;
-            border-radius: 9px;
+            width: 92vw;
+            max-width: 360px;
+            margin: 10px auto 0 auto;
+            background: #0f2d6e;
+            height: 22px;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 2px solid #ffffff;
         }
         .combo-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00ffcc, #ff0055);
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #e11d48, #f59e0b);
             transition: width 0.1s linear;
         }
         .combo-text {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
+            width: 100%; height: 100%; top: 0; left: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; color: white;
+            text-shadow: 0 2px 2px #000;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* Schermata Centrale di Gioco */
+        /* L'ARENA DIVENTA IL CONTENITORE DEL CANVAS 3D */
         #arena {
-            width: 85vw;
-            max-width: 340px;
-            height: 35vh;
-            max-height: 260px;
-            background: radial-gradient(circle, #1a1a26 0%, #0f0f15 100%);
-            border: 2px solid #ff0055;
+            width: 92vw;
+            max-width: 360px;
+            height: 36vh;
+            max-height: 280px;
+            background-color: #3b82f6;
+            border: 4px solid #ffffff;
             border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.15);
-            margin: 10px 0;
+            box-shadow: 0 8px 0 #0a3180, 0 15px 20px rgba(0,0,0,0.3);
+            margin: 6px 0;
         }
         
-        .shake {
-            animation: screenShake 0.15s cubic-bezier(.36,.07,.19,.97) both;
-        }
-        @keyframes screenShake {
-            10%, 90% { transform: translate3d(-2px, 0, 0); }
-            20%, 80% { transform: translate3d(3px, -2px, 0); }
-            30%, 50%, 70% { transform: translate3d(-5px, 3px, 0); }
-            40%, 60% { transform: translate3d(5px, -1px, 0); }
+        /* Il Canvas di Three.js occupa tutto lo spazio di #arena */
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         #nome-palestra {
             position: absolute;
-            top: 15px;
-            font-size: 11px;
-            letter-spacing: 1px;
-            color: #00ffcc;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: rgba(0, 255, 204, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
-            z-index: 5;
-        }
-
-        /* ENGINE GRAFICO: L'OMINO EVOLUTIVO CONTENITORE */
-        #character-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 200px;
-            height: 160px;
-            margin-top: 25px;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* Componenti del corpo base */
-        .char-head {
-            width: 34px;
-            height: 34px;
-            background: #ffdbac;
-            border-radius: 50%;
-            position: relative;
-            border: 2px solid #1c1c28;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            z-index: 4;
-            transition: all 0.3s ease;
-        }
-        .char-glasses {
-            display: none;
-            position: absolute;
-            top: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .char-body-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 100%;
-            height: 80px;
-            margin-top: -2px;
-        }
-        .char-torso {
-            width: 24px;
-            height: 55px;
-            background: #3a3a4f;
-            border-radius: 6px;
-            border: 2px solid #1c1c28;
-            z-index: 3;
-            position: relative;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .char-arm {
-            width: 10px;
-            height: 40px;
-            background: #ffdbac;
-            border: 2px solid #1c1c28;
-            border-radius: 5px;
-            position: absolute;
-            top: 2px;
-            z-index: 2;
-            transform-origin: top center;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .char-arm.left { left: 74px; }
-        .char-arm.right { right: 74px; }
-
-        /* MODIFICATORI DELLE FASI MUSCOLARI */
-        /* 1. Fase Secco */
-        .fase-secco .char-arm.left { transform: rotate(10deg); }
-        .fase-secco .char-arm.right { transform: rotate(-10deg); }
-
-        /* 2. Fase Fit */
-        .fase-fit .char-torso {
-            width: 38px;
-            background: #ffdbac;
-            border-radius: 8px 8px 4px 4px;
-        }
-        .fase-fit .char-glasses { display: block; }
-        .fase-fit .char-arm {
-            width: 13px;
-            height: 42px;
-            background: #ffdbac;
-        }
-        .fase-fit .char-arm.left { left: 66px; transform: rotate(35deg); }
-        .fase-fit .char-arm.right { right: 66px; transform: rotate(-35deg); }
-
-        /* 3. Fase Grosso */
-        .fase-grosso .char-torso {
-            width: 55px;
-            height: 58px;
-            background: #ffdbac;
-            border-radius: 14px 14px 4px 4px;
-            box-shadow: inset 0 8px 0 rgba(0,0,0,0.05);
-        }
-        .fase-grosso .char-head {
-            transform: scale(1.05);
-            background: #ffdbac;
-        }
-        .fase-grosso .char-glasses { display: block; font-size: 16px; top: 6px;}
-        .fase-grosso .char-arm {
-            width: 22px;
-            height: 45px;
-            background: #ffdbac;
-            border-radius: 10px;
-            border-color: #000;
-        }
-        .fase-grosso .char-arm.left { left: 52px; transform: rotate(110deg) translateY(-5px); }
-        .fase-grosso .char-arm.right { right: 52px; transform: rotate(-110deg) translateY(-5px); }
-
-        /* 4. Fase Distruttore */
-        .fase-distruttore .char-torso {
-            width: 75px;
-            height: 62px;
-            background: #e0a96d;
-            border-color: #ff0055;
-            border-radius: 18px 18px 6px 6px;
-        }
-        .fase-distruttore .char-head {
-            transform: scale(1.15);
-            background: #e0a96d;
-            border-color: #ff0055;
-        }
-        .fase-distruttore .char-glasses { display: block; font-size: 18px; top: 6px; }
-        .fase-distruttore .char-arm {
-            width: 32px;
-            height: 50px;
-            background: #e0a96d;
-            border-color: #ff0055;
-            border-radius: 14px;
-        }
-        .fase-distruttore .char-arm.left { left: 38px; transform: rotate(125deg) translateY(-8px); }
-        .fase-distruttore .char-arm.right { right: 38px; transform: rotate(-125deg) translateY(-8px); }
-        
-        .fase-distruttore {
-            animation: superGlow 0.5s ease-in-out infinite alternate;
-        }
-        @keyframes superGlow {
-            0% { filter: drop-shadow(0 0 4px #ff0055); }
-            100% { filter: drop-shadow(0 0 16px #ff0055) drop-shadow(0 0 2px #ffcc00); }
-        }
-
-        /* Schermata Finale Dio della Manhattan */
-        .fase-dio #character-wrapper { transform: scale(1.2); }
-        .fase-dio .char-torso { width: 90px; background: linear-gradient(to bottom, #ffcc00, #ff0055); border-color: #fff; }
-        .fase-dio .char-head { background: #ffcc00; border-color: #fff; }
-        .fase-dio .char-glasses { display: block; font-size: 20px; }
-        .fase-dio .char-arm { width: 38px; height: 55px; background: linear-gradient(to top, #ffcc00, #ff0055); border-color: #fff; }
-        .fase-dio .char-arm.left { left: 22px; transform: rotate(130deg); }
-        .fase-dio .char-arm.right { right: 22px; transform: rotate(-130deg); }
-        .fase-dio { animation: godGlow 0.3s ease-in-out infinite alternate; }
-        @keyframes godGlow {
-            0% { filter: drop-shadow(0 0 10px #ffcc00); }
-            100% { filter: drop-shadow(0 0 25px #00ffcc); }
-        }
-
-        /* Fumetto degli Insulti */
-        #fumetto {
-            position: absolute;
-            bottom: 150px;
-            background: #ffffff;
-            color: #000000;
-            padding: 8px 14px;
-            border-radius: 16px;
-            font-size: 13px;
-            font-weight: bold;
-            max-width: 220px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 10;
-        }
-        #fumetto::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
+            top: 10px; left: 50%;
             transform: translateX(-50%);
-            border-width: 8px 8px 0;
-            border-style: solid;
-            border-color: #ffffff transparent;
-            display: block;
-            width: 0;
-        }
-
-        /* Floating Text (+1 kg) */
-        .floating-text {
-            position: absolute;
-            color: #00ffcc;
-            font-weight: bold;
-            font-size: 24px;
-            pointer-events: none;
-            z-index: 10;
-            animation: floatUp 0.6s ease-out forwards;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.8); opacity: 1; }
-            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
-        }
-
-        /* Pulsante Principale */
-        .action-area {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding-bottom: 5px;
-        }
-        .btn-allena {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: none;
-            background: linear-gradient(135deg, #ff0055 0%, #7000ff 100%);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 11px;
+            color: #ffffff;
             text-transform: uppercase;
-            box-shadow: 0 8px 25px rgba(112, 0, 255, 0.4), inset 0 4px 10px rgba(255,255,255,0.3);
-            cursor: pointer;
-            touch-action: manipulation;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.05s;
-        }
-        .btn-allena:active { transform: scale(0.92); }
-        .btn-allena:disabled {
-            background: #2a2a3a;
-            color: #5a5a6a;
-            box-shadow: none;
-            cursor: not-allowed;
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 0 #7f1d1d;
+            z-index: 5;
+            white-space: nowrap;
         }
 
-        /* Area Shop Inferiore */
+        /* Nuvoletta Fumetto */
+        #fumetto {
+            position: absolute; top: 55px; left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: #ffffff; color: #1e293b;
+            padding: 6px 12px; border-radius: 14px;
+            font-size: 11px; max-width: 180px; text-align: center;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            border: 2px solid #0a2266;
+            opacity: 0; transition: all 0.15s ease; z-index: 10;
+        }
+
+        .level-progress-container {
+            width: 92vw;
+            max-width: 360px;
+            height: 14px;
+            background: #1e3a8a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #ffffff;
+            margin-bottom: 4px;
+        }
+        .level-progress-bar {
+            height: 100%; width: 0%;
+            background: #22c55e;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+            transition: width 0.2s ease;
+        }
+
+        /* Testo Fluttuante 3D Pop */
+        .floating-text {
+            position: absolute; color: #ffeb3b; font-size: 28px; font-family: 'Fredoka One', cursive; pointer-events: none; z-index: 10;
+            -webkit-text-stroke: 2px #000;
+            text-shadow: 0 3px 0 #e65100;
+            animation: floatUpCartoon 0.4s ease-out forwards;
+        }
+        @keyframes floatUpCartoon {
+            0% { transform: translateY(0) scale(0.6) rotate(-5deg); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.2) rotate(5deg); opacity: 0; }
+        }
+
+        /* Pulsantone */
+        .action-area { width: 100%; display: flex; justify-content: center; }
+        .btn-allena {
+            width: 88vw; max-width: 340px; height: 56px;
+            border-radius: 20px; border: 2px solid #ffffff;
+            background: linear-gradient(to bottom, #ff9800, #e65100);
+            color: white; font-family: 'Fredoka One', cursive; font-size: 20px; text-transform: uppercase;
+            box-shadow: 0 6px 0 #a33600, 0 10px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer; touch-action: manipulation;
+            transition: transform 0.05s, box-shadow 0.05s;
+            -webkit-text-stroke: 1px #5c1e00;
+        }
+        .btn-allena:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #a33600, 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Area Shop */
         .shop {
-            width: 100%;
-            background: #14141f;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            border-radius: 24px 24px 0 0;
-            max-height: 32vh;
-            overflow-y: auto;
+            width: 100%; background: #0f3cb4;
+            border-top: 4px solid #ffffff;
+            padding: 12px; display: flex; flex-direction: column; gap: 8px;
+            max-height: 30vh; overflow-y: auto;
         }
         .btn-shop {
-            background: #1c1c28;
-            border: 1px solid rgba(255, 204, 0, 0.15);
-            color: white;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            min-height: 44px;
+            background: #1d4ed8; border: 2px solid #ffffff;
+            color: #ffffff; padding: 10px 14px; border-radius: 16px;
+            font-size: 11px; display: flex; justify-content: space-between; align-items: center;
+            width: 100%; box-shadow: 0 4px 0 #0c2366;
         }
-        .btn-shop:disabled {
-            background: #111118;
-            border-color: transparent;
-            color: #4a4a52;
-        }
-        .btn-shop b { color: #ffcc00; }
-        .btn-shop:disabled b { color: #4a4a52; }
+        .btn-shop b { color: #000000; font-size: 12px; background: #ffcc00; padding: 4px 10px; border-radius: 10px; box-shadow: inset 0 -2px 0 #ca8a04; }
+        .btn-shop:disabled { opacity: 0.4; box-shadow: 0 2px 0 #0c2366; transform: translateY(2px); }
 
-        #esplosione { display: none; font-size: 140px; position: absolute; z-index: 5; }
-        
-        .reset-btn {
-            background: transparent;
-            border: none;
-            color: #4a4a52;
-            font-size: 10px;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-top: 2px;
-            margin-bottom: 5px;
-        }
+        .reset-btn { background: transparent; border: none; color: #93c5fd; font-size: 10px; text-decoration: underline; margin: 4px 0; }
 
-        /* POP-UP GRAFICO PERSONALIZZATO (MODAL) */
+        /* Modal di Fine Livello */
         #custom-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(5, 5, 8, 0.85);
-            backdrop-filter: blur(8px);
-            z-index: 200;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(4px);
+            z-index: 200; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.2s ease;
         }
-        #custom-modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        #custom-modal.show { opacity: 1; visibility: visible; }
         .modal-content {
-            background: #14141f;
-            width: 85vw;
-            max-width: 320px;
-            padding: 25px 20px;
-            border-radius: 24px;
-            border: 2px solid #ff0055;
-            box-shadow: 0 0 30px rgba(255, 0, 85, 0.3);
-            text-align: center;
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #ffffff; width: 85vw; max-width: 320px;
+            padding: 24px; border-radius: 24px; border: 4px solid #ffcc00;
+            text-align: center; box-shadow: 0 10px 0 #ca8a04;
         }
-        #custom-modal.show .modal-content {
-            transform: scale(1);
-        }
-        .modal-text {
-            font-size: 15px;
-            line-height: 1.5;
-            color: #ffffff;
-            margin-bottom: 22px;
-            font-weight: 500;
-        }
+        .modal-text { font-size: 14px; color: #1e293b; line-height: 1.5; margin-bottom: 20px; }
         .modal-btn {
-            background: linear-gradient(135deg, #00ffcc 0%, #00a3ff 100%);
-            border: none;
-            color: #0d0d13;
-            padding: 12px 30px;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 30px;
-            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
-            cursor: pointer;
-            width: 100%;
+            background: #22c55e; border: none; color: white; padding: 12px;
+            font-family: 'Fredoka One', cursive; font-size: 16px; text-transform: uppercase; border-radius: 16px;
+            width: 100%; box-shadow: 0 5px 0 #15803d;
         }
-        .modal-btn:active { transform: scale(0.97); }
     </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
     <div id="loading-screen">
-        <div class="loader-title">Andretta:<br>Manhattan Destroyer</div>
-        <div class="loader-subtitle">Caricamento bicipiti in corso...</div>
+        <div class="loader-title">GYM LIFTING<br>HERO 3D</div>
         <div class="loader-spinner"></div>
     </div>
 
     <div id="custom-modal">
         <div class="modal-content">
             <div id="modal-msg" class="modal-text">Messaggio</div>
-            <button class="modal-btn" onclick="chiudiModal()">OK</button>
+            <button class="modal-btn" onclick="chiudiModal()">AVANTI AL PROSSIMO 🚀</button>
         </div>
     </div>
 
     <header>
-        <h1>Andretta: Manhattan Destroyer</h1>
-        <div class="stats-box">
-            <div class="stat">Forza <span><b id="forza">0</b> kg</span></div>
-            <div class="stat">Rendita <span>+<b id="passivo">0</b> kg/s</span></div>
-            <div class="stat">Click <span><b id="click-power">1</b> kg</span></div>
+        <h1>Andretta: Lifting Hero 3D</h1>
+        <div class="stats-container">
+            <div class="stat-card">Forza Totale <span><b id="forza">0</b> kg</span></div>
+            <div class="stat-card">Auto-Allenamento <span>+<b id="passivo">0</b> kg/s</span></div>
         </div>
     </header>
 
     <div class="combo-container">
         <div id="combo-bar" class="combo-bar"></div>
-        <div id="combo-text" class="combo-text">Combo: x1.0</div>
+        <div id="combo-text" class="combo-text">Moltiplicatore: x1.0</div>
     </div>
 
-    <div id="fumetto">Sei solo un secco! 😡</div>
-
     <div id="arena">
-        <div id="nome-palestra">Livello 1: Ingresso Manhattan 🧱</div>
-        
-        <div id="character-wrapper" class="fase-secco">
-            <div class="char-head">
-                😐
-                <div class="char-glasses">😎</div>
-            </div>
-            <div class="char-body-container">
-                <div class="char-arm left"></div>
-                <div class="char-torso"></div>
-                <div class="char-arm right"></div>
-            </div>
+        <div id="nome-palestra">Caricamento...</div>
+        <div id="fumetto">Sei solo un secco! 😡</div>
         </div>
 
-        <div id="esplosione">💥</div>
+    <div class="level-progress-container">
+        <div id="level-progress-bar" class="level-progress-bar"></div>
     </div>
 
     <div class="action-area">
-        <button class="btn-allena" id="main-clicker">SPACCA!🏋️‍♂️</button>
+        <button class="btn-allena" id="main-clicker">SOLLEVA PESI! 🏋️‍♂️💪</button>
     </div>
 
     <button class="reset-btn" onclick="resetGioco()">Azzera Progressi</button>
@@ -589,21 +320,18 @@
             <span>🎒 Cintura Lifter (+1 kg/s)</span> <b id="costo1">50 kg</b>
         </button>
         <button class="btn-shop" id="upgrade2" onclick="compraUpgrade(2)">
-            <span>🥤 Shaker Proteico (+5 kg/s)</span> <b id="costo2">250 kg</b>
+            <span>🥤 Shaker Proteico (+8 kg/s)</span> <b id="costo2">300 kg</b>
         </button>
         <button class="btn-shop" id="upgrade3" onclick="compraUpgrade(3)">
-            <span>🔥 Sguardo del Coach (+25 kg/s)</span> <b id="costo3">1200 kg</b>
+            <span>🔥 Sguardo del Coach (+50 kg/s)</span> <b id="costo3">2000 kg</b>
         </button>
         <button class="btn-shop" id="upgrade4" onclick="compraUpgrade(4)">
-            <span>🛠️ Ghisa Abusiva (+2 kg per Click)</span> <b id="costo4">600 kg</b>
+            <span>🛠️ Ghisa Abusiva (+4 kg per Click)</span> <b id="costo4">800 kg</b>
         </button>
     </div>
 
     <script>
-        // Blocco gesture zoom nativo iOS
-        document.addEventListener('gesturestart', function (e) {
-            e.preventDefault();
-        });
+        document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
 
         let forza = 0;
         let kgPerClickBase = 1;
@@ -611,9 +339,9 @@
         let livelloPalestra = 1;
         
         let costoCintura = 50;
-        let costoShaker = 250;
-        let costoCoach = 1200;
-        let costoGhisa = 600;
+        let costoShaker = 300;
+        let costoCoach = 2000;
+        let costoGhisa = 800;
 
         let comboHits = 0;
         let ultimoClickTime = 0;
@@ -621,26 +349,193 @@
         let modalAttivo = false;
 
         const palestre = [
-            "Livello 1: Ingresso Manhattan 🧱",
-            "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
-            "Livello Finale: Tutta la Manhattan 🏜️"
+            "Livello 1: Ingresso Manhattan 🧱", "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
+            "Livello 3: Area Specchi & Cardio 🪞", "Livello 4: L'Intero Edificio Manhattan 🏢",
+            "Livello 5: La Città di Melito 🏙️💥", "Livello 6: Il Vesuvio (Ghisa Liquida) 🌋",
+            "Livello 7: Orbita Terrestre 🌍🛰️", "Livello 8: Il Sistema Solare ☀️",
+            "Livello 9: La Via Lattea dei Bicipiti 🌌", "Livello Final: Il Multiverso Ultra-Grosso 👁️✨"
         ];
-        const targetForza = [150, 500, 1500]; 
+        
+        const targetForza = [500, 2500, 10000, 40000, 120000, 350000, 1000000, 4000000, 15000000, 50000000];
+        const coloriLivelli = ["#ef4444", "#22c55e", "#3b82f6", "#a855f7", "#eab308", "#f97316", "#14b8a6", "#f97316", "#475569", "#ec4899"];
 
         const insulti = [
-            "Sei solo un secco di m***a! 😡",
-            "SPINGI QUEL BILANCIERE CHRISTIAN!",
-            "SPINGI QUEL BILANCIERE LUIGI!",
-            "Ma cosa fai? Mangi solo insalatina? 🥗",
-            "Le tue braccia sembrano grissini! 🥖",
-            "Meno chiacchiere e più ghisa! 🤬",
-            "Stai facendo riscaldamento con i pesi delle Barbie? 🎀",
-            "Guarda che le vene si devono gonfiare! ⚡",
-            "Se non svieni a fine serie, stai barando! 💀"
+            "Sei solo un secco di m***a! 😡", "SPINGI QUEL BILANCIERE CHRISTIAN!",
+            "SPINGI QUEL BILANCIERE LUIGI!", "Ma cosa fai? Mangi solo insalatina? 🥗",
+            "Le tue braccia sembrano grissini! 🥖", "Meno chiacchiere e più ghisa! 🤬",
+            "Guarda che le vene si devono gonfiare! ⚡", "Se n’è andata tutta la forza? Spingi!",
+            "Melito trema davanti al tuo pompaggio! 🏙️"
         ];
 
         let fumettoTimeout;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // ELEMENTI ENGINE 3D (THREE.JS)
+        let scene, camera, renderer;
+        let characterGroup, torsoMesh, headMesh, leftArm, rightArm, leftDumbbell, rightDumbbell;
+        let floorGrid;
+        let baseArmY = 0.5;
+        let speedAnim = 1.0;
+
+        function inizializza3D() {
+            const container = document.getElementById('arena');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Creazione Scena
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color('#3b82f6');
+
+            // Telecamera prospettica da gioco mobile
+            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+            camera.position.set(0, 2.2, 5);
+            camera.lookAt(0, 0.9, 0);
+
+            // Renderer WebGL ad alte prestazioni
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.shadowMap.enabled = true;
+            container.appendChild(renderer.domElement);
+
+            // Luci d'effetto stile cartoon
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            dirLight.position.set(5, 8, 5);
+            scene.add(dirLight);
+
+            // Pedana Circolare (Podio di image_8a5e9f.jpg)
+            const podiumGeo = new THREE.CylinderGeometry(1.2, 1.3, 0.15, 32);
+            const podiumMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.2, metalness: 0.1 });
+            const podium = new THREE.Mesh(podiumGeo, podiumMat);
+            podium.position.y = 0.075;
+            scene.add(podium);
+
+            // Pavimento a scacchi stilizzato sul fondo
+            const gridHelper = new THREE.GridHelper(20, 20, 0xffffff, 0x1d4ed8);
+            gridHelper.position.y = 0.01;
+            scene.add(gridHelper);
+
+            // CREAZIONE GRUPPO PERSONAGGIO STILO ROBLOX
+            characterGroup = new THREE.Group();
+            characterGroup.position.set(0, 0.15, 0);
+
+            // Materiale Pelle e Canotta Bianca
+            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbac, roughness: 0.4 });
+            const shirtMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
+            const weightMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
+
+            // Torso (Blocco)
+            const torsoGeo = new THREE.BoxGeometry(0.5, 0.8, 0.3);
+            torsoMesh = new THREE.Mesh(torsoGeo, shirtMat);
+            torsoMesh.position.y = 0.4;
+            characterGroup.add(torsoMesh);
+
+            // Testa
+            const headGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+            headMesh = new THREE.Mesh(headGeo, skinMat);
+            headMesh.position.y = 1.0;
+            characterGroup.add(headMesh);
+
+            // Braccio Sinistro (Infulcrato dall'alto per ruotare)
+            leftArm = new THREE.Group();
+            leftArm.position.set(-0.38, 0.7, 0);
+            const armGeo = new THREE.BoxGeometry(0.18, 0.5, 0.18);
+            const leftArmMesh = new THREE.Mesh(armGeo, skinMat);
+            leftArmMesh.position.y = -0.2;
+            leftArm.add(leftArmMesh);
+
+            // Manubrio Sinistro
+            leftDumbbell = creaManubrio3D(weightMat);
+            leftDumbbell.position.set(0, -0.45, 0);
+            leftArm.add(leftDumbbell);
+            characterGroup.add(leftArm);
+
+            // Braccio Destro
+            rightArm = new THREE.Group();
+            rightArm.position.set(0.38, 0.7, 0);
+            const rightArmMesh = new THREE.Mesh(armGeo, skinMat);
+            rightArmMesh.position.y = -0.2;
+            rightArm.add(rightArmMesh);
+
+            // Manubrio Destro
+            rightDumbbell = creaManubrio3D(weightMat);
+            rightDumbbell.position.set(0, -0.45, 0);
+            rightArm.add(rightDumbbell);
+            characterGroup.add(rightArm);
+
+            scene.add(characterGroup);
+
+            // loop di rendering
+            animate();
+        }
+
+        function creaManubrio3D(materiale) {
+            const group = new THREE.Group();
+            // Barra centrale
+            const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8);
+            const bar = new THREE.Mesh(barGeo, materiale);
+            bar.rotation.z = Math.PI / 2;
+            group.add(bar);
+            // Disco sinistro
+            const discGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.06, 16);
+            const d1 = new THREE.Mesh(discGeo, materiale);
+            d1.position.x = -0.16;
+            d1.rotation.z = Math.PI / 2;
+            group.add(d1);
+            // Disco destro
+            const d2 = new THREE.Mesh(discGeo, materiale);
+            d2.position.x = 0.16;
+            d2.rotation.z = Math.PI / 2;
+            group.add(d2);
+            return group;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            let time = Date.now() * 0.003 * speedAnim;
+            
+            // Animazione continua di sollevamento pesi (Oscillazione braccia 3D)
+            let wave = Math.sin(time) * 0.4 - 0.2;
+            leftArm.rotation.x = wave;
+            rightArm.rotation.x = wave;
+
+            // Rallentamento progressivo se l'utente smette di cliccare
+            if(speedAnim > 1.0) speedAnim -= 0.05;
+
+            renderer.render(scene, camera);
+        }
+
+        function aggiornaTaglia3D(percentuale) {
+            if(!torsoMesh) return;
+
+            // Calcolo moltiplicatore di crescita muscolare reale basato sui progressi
+            let scaleFactorX = 1.0 + (percentuale / 100) * 1.5; 
+            let scaleFactorZ = 1.0 + (percentuale / 100) * 1.0; 
+
+            // Espansione Torso
+            torsoMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
+            
+            // Spostamento e ingrossamento delle braccia
+            leftArm.position.x = -0.28 - (0.1 * scaleFactorX);
+            rightArm.position.x = 0.28 + (0.1 * scaleFactorX);
+            leftArm.scale.set(1.0 + (percentuale/100)*0.8, 1.0, 1.0 + (percentuale/100)*0.8);
+            rightArm.scale.set(1.0 + (percentuale/100)*0.8, 1.0, 1.0 + (percentuale/100)*0.8);
+
+            // Ingrossamento del manubrio 3D
+            let weightScale = 1.0 + (percentuale / 100) * 1.3;
+            leftDumbbell.scale.set(weightScale, weightScale, weightScale);
+            rightDumbbell.scale.set(weightScale, weightScale, weightScale);
+
+            // Cambio colori della scena per effetto Aura "Hacker" / "God"
+            if (percentuale >= 80 || livelloPalestra > 10) {
+                scene.background.setHex(0x1e1b4b); // Sfondo scuro elettrico
+            } else {
+                scene.background.setHex(0x3b82f6); // Sfondo azzurro classico
+            }
+        }
 
         function caricaSalvataggi() {
             if (localStorage.getItem('andretta_forza') !== null) {
@@ -652,13 +547,11 @@
                 costoShaker = parseInt(localStorage.getItem('andretta_costo2'));
                 costoCoach = parseInt(localStorage.getItem('andretta_costo3'));
                 costoGhisa = parseInt(localStorage.getItem('andretta_costo4'));
-                
-                if(livelloPalestra > 3) livelloPalestra = 4;
             }
         }
 
         function salvaProgressi() {
-            if (livelloPalestra > 3) return;
+            if (livelloPalestra > 10) return;
             localStorage.setItem('andretta_forza', forza);
             localStorage.setItem('andretta_kgclick', kgPerClickBase);
             localStorage.setItem('andretta_kgsecondo', kgAlSecondo);
@@ -670,7 +563,7 @@
         }
 
         function resetGioco() {
-            if(confirm("Sei sicuro di voler azzerare tutti i bicipiti e ricominciare da zero?")) {
+            if(confirm("Vuoi azzerare il tuo eroe 3D della ghisa e ripartire da Noob?")) {
                 localStorage.clear();
                 window.location.reload();
             }
@@ -678,49 +571,47 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             caricaSalvataggi();
-            
-            if(livelloPalestra <= 3) {
-                document.getElementById("nome-palestra").innerText = palestre[livelloPalestra - 1];
-                document.getElementById("arena").style.borderColor = livelloPalestra === 2 ? "#00ffcc" : (livelloPalestra === 3 ? "#ffcc00" : "#ff0055");
-            } else {
-                document.getElementById("nome-palestra").innerText = "MATTEO HA DISTRUTTO TUTTO 🏜️";
-                document.getElementById("arena").style.borderColor = "#ff0055";
-                document.getElementById("main-clicker").disabled = true;
-            }
+            inizializza3D();
+            setupLivelloCorrente();
             aggiornaGrafica();
 
             setTimeout(() => {
                 const loader = document.getElementById('loading-screen');
                 loader.style.opacity = '0';
-                setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
-            }, 1500); 
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 400);
+            }, 1000); 
         });
+
+        function setupLivelloCorrente() {
+            const badge = document.getElementById("nome-palestra");
+            if(livelloPalestra <= 10) {
+                badge.innerText = palestre[livelloPalestra - 1];
+                let col = coloriLivelli[livelloPalestra - 1];
+                badge.style.background = col;
+            } else {
+                badge.innerText = "MAX 3D HERO GOD 👑";
+                document.getElementById("main-clicker").disabled = true;
+            }
+        }
 
         function playSuono(freq, tipo, duration) {
             try {
                 let osc = audioCtx.createOscillator();
                 let gain = audioCtx.createGain();
-                osc.type = tipo;
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                osc.type = tipo; osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
             } catch(e){}
         }
 
         function allenaMatteo(e) {
-            if (livelloPalestra > 3 || modalAttivo) return;
-            
+            if (livelloPalestra > 10 || modalAttivo) return;
             let ora = Date.now();
             
-            if (ora - ultimoClickTime < 1000) {
-                comboHits += 1;
-            } else {
-                comboHits = 1;
-            }
+            if (ora - ultimoClickTime < 900) comboHits += 1;
+            else comboHits = 1;
             ultimoClickTime = ora;
 
             if (comboHits < 5) moltiplicatoreCombo = 1.0;
@@ -731,54 +622,28 @@
             let guadagnoEffettivo = Math.round(kgPerClickBase * moltiplicatoreCombo);
             forza += guadagnoEffettivo;
             
+            // Impulso di velocità all'animazione 3D
+            speedAnim = Math.min(speedAnim + 1.2, 7.0);
+
             aggiornaGrafica();
-            playSuono(500 + (Math.min(comboHits, 40) * 5), 'sine', 0.04); 
+            playSuono(560 + (Math.min(comboHits, 30) * 4), 'sine', 0.04); 
 
             creaTestoFluttuante("+" + guadagnoEffettivo + "kg");
-            aggiornaBarraCombo();
 
-            const wrapper = document.getElementById("character-wrapper");
-            wrapper.style.transform = "scale(0.92)";
-            setTimeout(() => { 
-                wrapper.style.transform = "scale(1)"; 
-            }, 100);
-
-            const arena = document.getElementById("arena");
-            arena.classList.add("shake");
-            setTimeout(() => { arena.classList.remove("shake"); }, 150);
-
-            if (Math.random() < 0.15) {
-                lanciaInsulto();
-            }
+            if (Math.random() < 0.12) lanciaInsulto();
 
             salvaProgressi(); 
             controllaEsplosione();
         }
 
         const mainBtn = document.getElementById("main-clicker");
-        mainBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault(); 
-            allenaMatteo(e);
-        }, {passive: false});
-        
-        mainBtn.addEventListener('click', function(e) {
-            if(e.screenX === 0 && e.screenY === 0) return; 
-            allenaMatteo(e);
-        });
-
-        function aggiornaBarraCombo() {
-            const bar = document.getElementById("combo-bar");
-            const txt = document.getElementById("combo-text");
-            
-            let percentualeBarra = Math.min((comboHits / 30) * 100, 100);
-            bar.style.width = percentualeBarra + "%";
-            txt.innerText = `Combo: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
-        }
+        mainBtn.addEventListener('touchstart', function(e) { e.preventDefault(); allenaMatteo(e); }, {passive: false});
+        mainBtn.addEventListener('click', function(e) { if(e.screenX === 0 && e.screenY === 0) return; allenaMatteo(e); });
 
         setInterval(() => {
             let ora = Date.now();
-            if (ora - ultimoClickTime > 1200 && comboHits > 0) {
-                comboHits = Math.floor(comboHits * 0.6) - 1;
+            if (ora - ultimoClickTime > 1000 && comboHits > 0) {
+                comboHits = Math.floor(comboHits * 0.5) - 1;
                 if (comboHits < 0) comboHits = 0;
                 
                 if (comboHits < 5) moltiplicatoreCombo = 1.0;
@@ -786,7 +651,9 @@
                 else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
                 else moltiplicatoreCombo = 3.0;
 
-                aggiornaBarraCombo();
+                const bar = document.getElementById("combo-bar");
+                bar.style.width = Math.min((comboHits / 30) * 100, 100) + "%";
+                document.getElementById("combo-text").innerText = `Moltiplicatore: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
                 aggiornaGrafica();
             }
         }, 300);
@@ -794,19 +661,15 @@
         function lanciaInsulto() {
             if(modalAttivo) return;
             const fumetto = document.getElementById("fumetto");
-            const insultoCasuale = insulti[Math.floor(Math.random() * insulti.length)];
-            fumetto.innerText = insultoCasuale;
-            
+            fumetto.innerText = insulti[Math.floor(Math.random() * insulti.length)];
             fumetto.style.opacity = "1";
-            fumetto.style.transform = "scale(1)";
+            fumetto.style.transform = "translateX(-50%) scale(1)";
             
-            playSuono(300, 'triangle', 0.08); 
-
             clearTimeout(fumettoTimeout);
             fumettoTimeout = setTimeout(() => {
                 fumetto.style.opacity = "0";
-                fumetto.style.transform = "scale(0.8)";
-            }, 1500);
+                fumetto.style.transform = "translateX(-50%) scale(0.8)";
+            }, 1300);
         }
 
         function creaTestoFluttuante(testo) {
@@ -814,42 +677,30 @@
             const el = document.createElement("div");
             el.className = "floating-text";
             el.innerText = testo;
-            if (moltiplicatoreCombo >= 2) el.style.color = "#ff0055"; 
-            el.style.left = (Math.random() * 40 + 30) + "%";
-            el.style.top = (Math.random() * 30 + 20) + "%";
+            el.style.left = (Math.random() * 30 + 35) + "%";
+            el.style.top = (Math.random() * 20 + 40) + "%";
             arena.appendChild(el);
-            setTimeout(() => el.remove(), 600);
+            setTimeout(() => el.remove(), 400);
         }
 
         function compraUpgrade(tipo) {
             if (modalAttivo) return;
             if (tipo === 1 && forza >= costoCintura) {
-                forza -= costoCintura;
-                kgAlSecondo += 1;
-                costoCintura = Math.floor(costoCintura * 1.5);
-                playSuono(650, 'triangle', 0.1);
+                forza -= costoCintura; kgAlSecondo += 1; costoCintura = Math.floor(costoCintura * 1.5);
             } else if (tipo === 2 && forza >= costoShaker) {
-                forza -= costoShaker;
-                kgAlSecondo += 5;
-                costoShaker = Math.floor(costoShaker * 1.6);
-                playSuono(850, 'triangle', 0.12);
-            } else if (tipo === 3 && forza >= costoCoach) { 
-                forza -= costoCoach;
-                kgAlSecondo += 25;
-                costoCoach = Math.floor(costoCoach * 1.7);
-                playSuono(950, 'sawtooth', 0.15);
-            } else if (tipo === 4 && forza >= costoGhisa) { 
-                forza -= costoGhisa;
-                kgPerClickBase += 2;
-                costoGhisa = Math.floor(costoGhisa * 1.8);
-                playSuono(1100, 'sine', 0.1);
+                forza -= costoShaker; kgAlSecondo += 8; costoShaker = Math.floor(costoShaker * 1.6);
+            } else if (tipo === 3 && forza >= costoCoach) {
+                forza -= costoCoach; kgAlSecondo += 50; costoCoach = Math.floor(costoCoach * 1.7);
+            } else if (tipo === 4 && forza >= costoGhisa) {
+                forza -= costoGhisa; kgPerClickBase += 4; costoGhisa = Math.floor(costoGhisa * 1.8);
             }
+            playSuono(650, 'triangle', 0.05);
             aggiornaGrafica();
             salvaProgressi();
         }
 
         setInterval(() => {
-            if (kgAlSecondo > 0 && livelloPalestra <= 3 && !modalAttivo) {
+            if (kgAlSecondo > 0 && livelloPalestra <= 10 && !modalAttivo) {
                 forza += kgAlSecondo;
                 aggiornaGrafica();
                 salvaProgressi(); 
@@ -867,93 +718,82 @@
             document.getElementById("custom-modal").classList.remove("show");
             modalAttivo = false;
             
-            if (livelloPalestra === 1) {
-                livelloPalestra = 2;
-                kgPerClickBase += 3;
-                document.getElementById("nome-palestra").innerText = palestre[1];
-                document.getElementById("arena").style.borderColor = "#00ffcc";
-            } else if (livelloPalestra === 2) {
-                livelloPalestra = 3;
-                kgPerClickBase += 3;
-                document.getElementById("nome-palestra").innerText = palestre[2];
-                document.getElementById("arena").style.borderColor = "#ffcc00";
-            } else if (livelloPalestra === 3) {
-                livelloPalestra = 4;
-                forza = 999999;
+            if (livelloPalestra < 10) {
+                livelloPalestra += 1;
+                kgPerClickBase += (livelloPalestra * 3);
+                setupLivelloCorrente();
+            } else if (livelloPalestra === 10) {
+                livelloPalestra = 11;
+                forza = 999999999;
                 kgAlSecondo = 0;
-                document.getElementById("nome-palestra").innerText = "MATTEO HA DISTRUTTO TUTTO 🏜️";
-                document.getElementById("arena").style.borderColor = "#ff0055";
-                document.getElementById("main-clicker").disabled = true;
+                setupLivelloCorrente();
             }
-            
             salvaProgressi(); 
             aggiornaGrafica();
         }
 
         function controllaEsplosione() {
-            if (modalAttivo || livelloPalestra > 3) return; 
+            if (modalAttivo || livelloPalestra > 10) return; 
             let traguardo = targetForza[livelloPalestra - 1];
             if (forza >= traguardo) {
                 forza = 0; 
-                playSuono(90, 'sawtooth', 0.6); 
-                
-                const esp = document.getElementById("esplosione");
-                esp.style.display = "block";
+                playSuono(120, 'sawtooth', 0.4); 
                 
                 setTimeout(() => {
-                    esp.style.display = "none";
-                    if (livelloPalestra === 1) {
-                        mostraModal("💥 CLAMOROSO! Matteo ha rasato al suolo l'Ingresso della Manhattan! La devastazione ha inizio...");
-                    } else if (livelloPalestra === 2) {
-                        mostraModal("💥 IMPRESSIONANTE! Matteo ha rasato al suolo la Sala Pesi della Manhattan! Nessun bilanciere è rimasto intero...");
-                    } else {
-                        mostraModal("🏆 TRAGUARDO LEGGENDARIO! Matteo Andretta ha rasato completamente tutta la Manhattan! La palestra è stata letteralmente disintegrata! 🏋️‍♂️💥🥊");
-                    }
-                }, 500);
+                    if (livelloPalestra === 1) mostraModal("⭐ ARENA DISINTEGRATA! L'Ingresso della Manhattan crolla sotto i colpi di un vero Pro. Sblocchiamo la Sala Pesi!");
+                    else if (livelloPalestra === 2) mostraModal("⭐ RECORD AGGIORNATO! Sala Pesi spazzata via. Il pavimento a scacchi sta cedendo!");
+                    else if (livelloPalestra === 3) mostraModal("⭐ LIVELLO SUPERATO! Zona specchi ridotta in atomi. La Manhattan sta per implodere...");
+                    else if (livelloPalestra === 4) mostraModal("⭐ DISTRUZIONE TOTALE! L'edificio Manhattan collassa del tutto. Prossimo obiettivo: la provincia!");
+                    else if (livelloPalestra === 5) mostraModal("⭐ APOCALISSE A MELITO! L'incredibile potenza muscolare accumulata ha scatenato un'onda d'urto devastante che ha raso al suolo Melito! Nessuna struttura è rimasta in piedi. Andiamo oltre la civiltà!");
+                    else if (livelloPalestra === 6) mostraModal("⭐ VESUVIO DISINTEGRATO! Hai risvegliato e spento il vulcano a suon di bicipiti e ghisa!");
+                    else if (livelloPalestra === 7) mostraModal("⭐ ONDA EXTRA-ATMOSFERICA! Satelliti in orbita spazzati via dal raggio dei tuoi dorsali!");
+                    else if (livelloPalestra === 8) mostraModal("⭐ FORZA DI GRAVITÀ SUPERATA! Il Sistema Solare ora gira intorno al tuo braccio!");
+                    else if (livelloPalestra === 9) mostraModal("⭐ GALASSIA FRANTUMATA! La Via Lattea si disintegra in polvere stellare.");
+                    else mostraModal("🏆 DIO ASSOLUTO DELLA GHISA! Matteo ha raggiunto lo stadio finale dell'universo. Tutto il Multiverso si fonde sotto i suoi piedi. Gioco Completato! 🔥💪⚡");
+                }, 100);
             }
         }
 
         function aggiornaGrafica() {
             document.getElementById("forza").innerText = forza;
             document.getElementById("passivo").innerText = kgAlSecondo;
-            document.getElementById("click-power").innerText = Math.round(kgPerClickBase * moltiplicatoreCombo);
             
             document.getElementById("costo1").innerText = costoCintura + " kg";
             document.getElementById("costo2").innerText = costoShaker + " kg";
             document.getElementById("costo3").innerText = costoCoach + " kg";
             document.getElementById("costo4").innerText = costoGhisa + " kg";
 
-            document.getElementById("upgrade1").disabled = (forza < costoCintura || livelloPalestra > 3 || modalAttivo);
-            document.getElementById("upgrade2").disabled = (forza < costoShaker || livelloPalestra > 3 || modalAttivo);
-            document.getElementById("upgrade3").disabled = (forza < costoCoach || livelloPalestra > 3 || modalAttivo);
-            document.getElementById("upgrade4").disabled = (forza < costoGhisa || livelloPalestra > 3 || modalAttivo);
+            document.getElementById("upgrade1").disabled = (forza < costoCintura || livelloPalestra > 10 || modalAttivo);
+            document.getElementById("upgrade2").disabled = (forza < costoShaker || livelloPalestra > 10 || modalAttivo);
+            document.getElementById("upgrade3").disabled = (forza < costoCoach || livelloPalestra > 10 || modalAttivo);
+            document.getElementById("upgrade4").disabled = (forza < costoGhisa || livelloPalestra > 10 || modalAttivo);
 
-            const wrapper = document.getElementById("character-wrapper");
-            const head = wrapper.querySelector(".char-head");
-
-            if (livelloPalestra > 3) {
-                wrapper.className = "fase-dio";
-                head.innerHTML = "👑<div class='char-glasses'>😎</div>";
-                return;
-            }
-
-            let traguardo = targetForza[livelloPalestra - 1];
-            let percentuale = (forza / traguardo) * 100;
-
-            if (percentuale < 30) {
-                wrapper.className = "fase-secco";
-                head.innerHTML = "😐<div class='char-glasses'>😎</div>";
-            } else if (percentuale >= 30 && percentuale < 60) {
-                wrapper.className = "fase-fit";
-                head.innerHTML = "😏<div class='char-glasses'>😎</div>";
-            } else if (percentuale >= 60 && percentuale < 90) {
-                wrapper.className = "fase-grosso";
-                head.innerHTML = "😡<div class='char-glasses'>😎</div>";
+            const pBar = document.getElementById("level-progress-bar");
+            if (livelloPalestra <= 10) {
+                let traguardo = targetForza[livelloPalestra - 1];
+                let pct = Math.min((forza / traguardo) * 100, 100);
+                pBar.style.width = pct + "%";
+                
+                // Aggiorna la dimensione dei poligoni 3D reali in base alla percentuale!
+                aggiornaTaglia3D(pct);
             } else {
-                wrapper.className = "fase-distruttore";
-                head.innerHTML = "🤬<div class='char-glasses'>😎</div>";
+                pBar.style.width = "100%";
+                aggiornaTaglia3D(100);
             }
+
+            const bar = document.getElementById("combo-bar");
+            bar.style.width = Math.min((comboHits / 30) * 100, 100) + "%";
+            document.getElementById("combo-text").innerText = `Moltiplicatore: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
         }
+
+        // Ridimensionamento adattivo per i cambi di orientamento dello schermo
+        window.addEventListener('resize', () => {
+            if(!renderer) return;
+            const container = document.getElementById('arena');
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
     </script>
 </body>
 </html>
