@@ -8,12 +8,12 @@
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a73e8">
+    <meta name="theme-color" content="#111827">
     
     <title>Gym Lifting Hero 3D - Il Tempio della Ghisa</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght=800;900&display=swap');
 
         * {
             box-sizing: border-box;
@@ -54,7 +54,6 @@
             text-transform: uppercase;
             -webkit-text-stroke: 2px #000;
             text-shadow: 0 6px 0 #b45309;
-            letter-spacing: 1px;
         }
         .loader-spinner {
             width: 60px; height: 60px;
@@ -66,7 +65,7 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Schermata Modale Avanzamento */
+        /* Modale Avanzamento */
         #custom-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(3, 7, 18, 0.9); backdrop-filter: blur(5px);
@@ -87,7 +86,7 @@
             -webkit-text-stroke: 1px #022c22;
         }
 
-        /* Intestazione principale */
+        /* Intestazione */
         header {
             width: 100%;
             text-align: center;
@@ -102,7 +101,6 @@
             text-transform: uppercase;
             -webkit-text-stroke: 2px #000000;
             text-shadow: 0 4px 0 #b45309;
-            letter-spacing: 0.5px;
         }
         
         .stats-container {
@@ -124,7 +122,6 @@
             font-size: 11px;
             color: #9ca3af;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .stat-card span {
             display: block;
@@ -137,13 +134,13 @@
         .stat-card span b { color: #f43f5e; }
         .stat-card span.green-glow b { color: #10b981; }
 
-        /* Moltiplicatore Combo */
+        /* Contenitore Combo Ottimizzato per la leggibilità */
         .combo-container {
             width: 92vw;
             max-width: 360px;
             margin: 12px auto 0 auto;
             background: #111827;
-            height: 26px;
+            height: 28px;
             border-radius: 14px;
             overflow: hidden;
             position: relative;
@@ -163,9 +160,10 @@
             -webkit-text-stroke: 1.5px #000000;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            line-height: 28px;
         }
 
-        /* L'Arena / Finestra 3D */
+        /* Finestra Arena 3D */
         #arena {
             width: 92vw;
             max-width: 360px;
@@ -199,21 +197,21 @@
             border-radius: 20px;
             border: 2px solid #ffffff;
             box-shadow: 0 4px 0 #7f1d1d, 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 5;
+            z-index: 15;
             white-space: nowrap;
             -webkit-text-stroke: 1px #000000;
         }
 
         /* Nuvoletta Incitamento Coach */
         #fumetto {
-            position: absolute; top: 58px; left: 50%;
+            position: absolute; top: 62px; left: 50%;
             transform: translateX(-50%) scale(0.8);
             background: #ffffff; color: #111827;
             padding: 8px 14px; border-radius: 16px;
             font-size: 12px; max-width: 220px; text-align: center;
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
             border: 2px solid #000000;
-            opacity: 0; transition: all 0.15s ease; z-index: 10;
+            opacity: 0; transition: all 0.15s ease; z-index: 20;
         }
 
         /* Barra Progresso Livello */
@@ -236,7 +234,7 @@
 
         /* Testo Fluttuante Cartoon */
         .floating-text {
-            position: absolute; color: #fbbf24; font-size: 30px; font-family: 'Fredoka One', cursive; pointer-events: none; z-index: 10;
+            position: absolute; color: #fbbf24; font-size: 30px; font-family: 'Fredoka One', cursive; pointer-events: none; z-index: 25;
             -webkit-text-stroke: 2px #000000;
             text-shadow: 0 4px 0 #b45309;
             animation: floatUpCartoon 0.45s ease-out forwards;
@@ -246,7 +244,7 @@
             100% { transform: translateY(-60px) scale(1.2) rotate(8deg); opacity: 0; }
         }
 
-        /* Pulsantone principale di allenamento */
+        /* Pulsantone di allenamento */
         .action-area { width: 100%; display: flex; justify-content: center; }
         .btn-allena {
             width: 88vw; max-width: 340px; height: 60px;
@@ -264,7 +262,7 @@
             box-shadow: 0 2px 0 #9a3412, 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Area Shop Inferiore */
+        /* Area Shop */
         .shop {
             width: 100%; background: #111827;
             border-top: 4px solid #1f2937;
@@ -315,7 +313,7 @@
 
     <div class="combo-container">
         <div id="combo-bar" class="combo-bar"></div>
-        <div id="combo-text" class="combo-text">Moltiplicatore: x1.0</div>
+        <div id="combo-text" class="combo-text">Moltiplicatore: x1.0 (0 Hit)</div>
     </div>
 
     <div id="arena">
@@ -366,7 +364,6 @@
         let moltiplicatoreCombo = 1.0;
         let modalAttivo = false;
 
-        // Livelli corretti grammaticalmente con Manhattan e Melito inclusi perfettamente
         const palestre = [
             "Livello 1: Ingresso della Manhattan 🧱", 
             "Livello 2: Sala Pesi della Manhattan 🏋️‍♂️",
@@ -397,7 +394,7 @@
         let fumettoTimeout;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // ARCHITETTURA DEL MOTORE PALESTRA 3D
+        // ARCHITETTURA DEL MOTORE PALESTRA 3D CORRETTA
         let scene, camera, renderer;
         let characterGroup, torsoMesh, headMesh, leftArm, rightArm, leftDumbbell, rightDumbbell;
         let shortsMesh;
@@ -409,82 +406,82 @@
             const height = container.clientHeight;
 
             scene = new THREE.Scene();
-            scene.background = new THREE.Color('#242933'); // Sfondo scuro industriale da sala pesi
+            scene.background = new THREE.Color('#242933'); 
 
+            // Arretrata e alzata leggermente la telecamera per inquadrare meglio l'intera scena
             camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-            camera.position.set(0, 1.8, 4.6);
-            camera.lookAt(0, 0.85, 0);
+            camera.position.set(0, 1.9, 4.8);
+            camera.lookAt(0, 0.75, 0);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(width, height);
             container.appendChild(renderer.domElement);
 
-            // Luci direzionali calibrate per dare rilievo 3D alle geometrie
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+            // ILLUMINAZIONE POTENZIATA (Risolve il problema del modello troppo scuro)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
             scene.add(ambientLight);
 
-            const topLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            topLight.position.set(1, 4, 3);
+            const topLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            topLight.position.set(0, 5, 4);
             scene.add(topLight);
 
-            // PAVIMENTO GOMMATO DA SALA PESI
+            const frontLight = new THREE.PointLight(0xffffff, 0.5, 10);
+            frontLight.position.set(0, 1.5, 3);
+            scene.add(frontLight);
+
+            // PAVIMENTO GOMMATO
             const floorGeo = new THREE.PlaneGeometry(16, 16);
             const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a1d24, roughness: 0.6 });
             const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
-            // Giunzioni quadrate del pavimento tecnico
             const floorGrid = new THREE.GridHelper(16, 8, 0x2e3440, 0x2a2f3a);
             floorGrid.position.y = 0.005;
             scene.add(floorGrid);
 
-            // MURO DI FONDO
+            // MURO DI FONDO - Abbassato per non interferire con l'interfaccia superiore
             const wallGeo = new THREE.PlaneGeometry(16, 6);
             const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b4252, roughness: 0.8 });
             const backWall = new THREE.Mesh(wallGeo, wallMat);
-            backWall.position.set(0, 3, -3.5);
+            backWall.position.set(0, 2.2, -3.5);
             scene.add(backWall);
 
-            // GRANDE SPECCHIO DA PALESTRA CON CORNICE CROMATA
-            const mirrorFrameGeo = new THREE.PlaneGeometry(5.2, 2.7);
+            // SPECCHIO DA PALESTRA CON CORNICE - Abbassato per evitare sovrapposizioni con il testo del livello
+            const mirrorFrameGeo = new THREE.PlaneGeometry(5.2, 2.0);
             const mirrorFrameMat = new THREE.MeshStandardMaterial({ color: 0xd8dee9, metalness: 0.9, roughness: 0.1 });
             const mirrorFrame = new THREE.Mesh(mirrorFrameGeo, mirrorFrameMat);
-            mirrorFrame.position.set(0, 2.2, -3.48);
+            mirrorFrame.position.set(0, 1.5, -3.48);
             scene.add(mirrorFrame);
 
-            const mirrorGeo = new THREE.PlaneGeometry(5.0, 2.5);
+            const mirrorGeo = new THREE.PlaneGeometry(5.0, 1.8);
             const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x88c0d0, roughness: 0.05, metalness: 0.95 });
             const mirror = new THREE.Mesh(mirrorGeo, mirrorMat);
-            mirror.position.set(0, 2.2, -3.46);
+            mirror.position.set(0, 1.5, -3.46);
             scene.add(mirror);
 
-            // ATTREZZATURE DECORATIVE: RASTRELLIERE MANUBRI MULTILIVELLO
-            creaRastrellieraCompleta(-2.3, -3.0);
-            creaRastrellieraCompleta(2.3, -3.0);
+            // RASTRELLIERE MANUBRI
+            creaRastrellieraCompleta(-2.3, -2.5);
+            creaRastrellieraCompleta(2.3, -2.5);
 
-            // PEDANA CIRCOLARE NEON SOTTO L'ATLETA
-            const platformGeo = new THREE.CylinderGeometry(1.0, 1.1, 0.1, 32);
+            // PEDANA CIRCOLARE SOTTO L'ATLETA
+            const platformGeo = new THREE.CylinderGeometry(1.0, 1.1, 0.08, 32);
             const platformMat = new THREE.MeshStandardMaterial({ color: 0x4c566a, roughness: 0.4, metalness: 0.3 });
             const platform = new THREE.Mesh(platformGeo, platformMat);
-            platform.position.y = 0.05;
+            platform.position.y = 0.04;
             scene.add(platform);
-
-            // Linea neon circolare sul bordo
-            const neonGeo = new THREE.CylinderGeometry(1.02, 1.02, 0.03, 32);
-            const neonMat = new THREE.MeshBasicMaterial({ color: 0x81a1c1 });
-            const neonRing = new THREE.Mesh(neonGeo, neonMat);
-            neonRing.position.y = 0.1;
-            scene.add(neonRing);
 
             // STRUTTURA DEL PERSONAGGIO MODELLO ROBLOX
             characterGroup = new THREE.Group();
-            characterGroup.position.set(0, 0.1, 0);
+            characterGroup.position.set(0, 0.08, 0);
+
+            // ROTAZIONE COMPLETA DI 180 GRADI (Risolve il problema del modello girato di spalle)
+            characterGroup.rotation.y = Math.PI;
 
             const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbb5, roughness: 0.5 });
-            const tankTopMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.5 }); // Canotta scura sportiva
-            const shortsMat = new THREE.MeshStandardMaterial({ color: 0x434c5e, roughness: 0.6 }); // Pantaloncini mimetici grigio/verdi
-            const steelMat = new THREE.MeshStandardMaterial({ color: 0x4c566a, metalness: 0.85, roughness: 0.15 }); // Acciaio lucido
+            const tankTopMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.5 }); 
+            const shortsMat = new THREE.MeshStandardMaterial({ color: 0x434c5e, roughness: 0.6 }); 
+            const steelMat = new THREE.MeshStandardMaterial({ color: 0x8892b0, metalness: 0.9, roughness: 0.1 }); 
 
             // Torso (Canotta)
             const torsoGeo = new THREE.BoxGeometry(0.5, 0.7, 0.3);
@@ -544,7 +541,6 @@
             animate();
         }
 
-        // Genera una rastrelliera di manubri multilivello realistica ai lati
         function creaRastrellieraCompleta(x, z) {
             const rackGroup = new THREE.Group();
             rackGroup.position.set(x, 0, z);
@@ -552,13 +548,11 @@
             const frameMat = new THREE.MeshStandardMaterial({ color: 0x3b4252, metalness: 0.5 });
             const plateMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.8 });
 
-            // Sostegni laterali obliqui
-            const poleGeo = new THREE.BoxGeometry(0.06, 1.1, 0.4);
+            const poleGeo = new THREE.BoxGeometry(0.06, 0.9, 0.4);
             const pole = new THREE.Mesh(poleGeo, frameMat);
-            pole.position.set(0, 0.55, 0);
+            pole.position.set(0, 0.45, 0);
             rackGroup.add(pole);
 
-            // Generazione dischi di ghisa impilati ordinatamente a terra
             for(let i=0; i<3; i++) {
                 const diskGeo = new THREE.CylinderGeometry(0.24 - (i*0.01), 0.24 - (i*0.01), 0.06, 16);
                 const disk = new THREE.Mesh(diskGeo, plateMat);
@@ -571,13 +565,11 @@
         function creaManubrioAcciaio(materiale) {
             const group = new THREE.Group();
             
-            // Impugnatura centrale zigrinata
             const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8);
             const bar = new THREE.Mesh(barGeo, materiale);
             bar.rotation.z = Math.PI / 2;
             group.add(bar);
 
-            // Coppie di pesi laterali solidi cilindrici
             const discGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.08, 16);
             const d1 = new THREE.Mesh(discGeo, materiale);
             d1.position.x = -0.13;
@@ -597,9 +589,8 @@
             let time = Date.now() * 0.003 * speedAnim;
             let wave = Math.sin(time) * 0.4 - 0.1;
             
-            // Animazione fluida alternata di sollevamento bicipiti
             leftArm.rotation.x = wave;
-            rightArm.rotation.x = wave;
+            rightArm.rotation.x = -wave; // Movimento alternato corretto delle braccia
 
             if(speedAnim > 1.0) speedAnim -= 0.05;
 
@@ -609,7 +600,6 @@
         function aggiornaTaglia3D(percentuale) {
             if(!torsoMesh) return;
 
-            // Crescita progressiva e proporzionata della massa muscolare in tempo reale
             let scaleFactorX = 1.0 + (percentuale / 100) * 1.5; 
             let scaleFactorZ = 1.0 + (percentuale / 100) * 1.0; 
 
@@ -627,9 +617,8 @@
             leftDumbbell.scale.set(weightScale, weightScale, weightScale);
             rightDumbbell.scale.set(weightScale, weightScale, weightScale);
 
-            // Cambio di illuminazione ambientale per la fase di picco energetico
             if (percentuale >= 80 || livelloPalestra > 10) {
-                scene.background.setHex(0x3b224c); // Colore viola neon intenso
+                scene.background.setHex(0x3b224c); 
             } else {
                 scene.background.setHex(0x242933); 
             }
@@ -817,7 +806,8 @@
             
             if (livelloPalestra < 10) {
                 livelloPalestra += 1;
-                kgPerClickBase += (livelloPalestra * 3);
+                let increment = livelloPalestra * 3;
+                if(!isNaN(increment)) kgPerClickBase += increment;
                 setupLivelloCorrente();
             } else if (livelloPalestra === 10) {
                 livelloPalestra = 11;
