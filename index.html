@@ -13,7 +13,7 @@
     <title>Gym Lifting Hero 3D - Il Tempio della Ghisa</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght=800;900&display=swap');
 
         * {
             box-sizing: border-box;
@@ -83,12 +83,13 @@
             text-shadow: 1px 1px 0px #022c22;
         }
 
-        /* Intestazione */
+        /* Intestazione e Pulsante di Installazione dedicato */
         header {
             width: 100%;
             text-align: center;
             padding-top: 10px;
             z-index: 10;
+            position: relative;
         }
         h1 {
             font-size: 26px;
@@ -97,6 +98,28 @@
             text-transform: uppercase;
             text-shadow: 0 4px 0 #b45309, 0 5px 0px #000000;
             letter-spacing: 0.5px;
+        }
+        
+        /* Bottone Scarica App */
+        #btn-installa-app {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+            border: 2px solid #ffffff;
+            color: white;
+            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #047857;
+            display: none; /* Appare via script solo se installabile */
+            z-index: 30;
+            text-shadow: 0 1px 0 #000;
+        }
+        #btn-installa-app:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #047857;
         }
         
         .stats-container {
@@ -155,7 +178,7 @@
             text-shadow: 0 1.5px 0 #000000;
         }
 
-        /* Finestra Arena 3D (Ottimizzata in altezza per lasciare spazio sotto) */
+        /* Finestra Arena 3D */
         #arena {
             width: 92vw;
             max-width: 360px;
@@ -191,6 +214,19 @@
             z-index: 15;
             white-space: nowrap;
             text-shadow: 0 1.5px 0 #000000;
+        }
+
+        #rango-evoluzione {
+            position: absolute;
+            bottom: 10px; left: 12px;
+            font-size: 11px;
+            background: rgba(0,0,0,0.75);
+            padding: 4px 10px;
+            border-radius: 10px;
+            border: 1px solid #fbbf24;
+            color: #fbbf24;
+            text-transform: uppercase;
+            z-index: 15;
         }
 
         /* Nuvoletta Incitamento Coach */
@@ -253,7 +289,7 @@
 
         .reset-btn { background: transparent; border: none; color: #525866; font-size: 11px; text-decoration: underline; margin: 2px 0 6px 0; cursor: pointer; font-family: 'Nunito', sans-serif; }
 
-        /* AREA SHOP: SISTEMATA CON SCROLL FUNZIONANTE E ALTEZZA DINAMICA */
+        /* AREA SHOP */
         .shop {
             width: 100%; 
             background: #111827;
@@ -262,9 +298,9 @@
             display: flex; 
             flex-direction: column; 
             gap: 8px;
-            flex-grow: 1; /* Prende tutto lo spazio rimasto in basso */
-            overflow-y: auto; /* Permette lo scorrimento verticale dei pulsanti */
-            -webkit-overflow-scrolling: touch; /* Rende lo scroll fluidissimo su iOS/Safari */
+            flex-grow: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .btn-shop {
@@ -272,7 +308,7 @@
             color: #ffffff; padding: 10px 12px; border-radius: 16px;
             font-size: 12px; display: flex; justify-content: space-between; align-items: center;
             width: 100%; box-shadow: 0 4px 0 #0f172a; cursor: pointer;
-            flex-shrink: 0; /* Impedisce ai pulsanti di schiacciarsi */
+            flex-shrink: 0;
         }
         .btn-shop span { display: flex; align-items: center; gap: 6px; font-family: 'Nunito', sans-serif; font-weight: 900; text-align: left; }
         .btn-shop b { 
@@ -300,6 +336,7 @@
     </div>
 
     <header>
+        <button id="btn-installa-app">SCARICA APP 📲</button>
         <h1>Gym Lifting Hero 3D</h1>
         <div class="stats-container">
             <div class="stat-card">Forza Totale <span><b id="forza">0</b> kg</span></div>
@@ -314,6 +351,7 @@
 
     <div id="arena">
         <div id="nome-palestra">Caricamento...</div>
+        <div id="rango-evoluzione">Rango: Noob 🟢</div>
         <div id="fumetto">Ancora un piccolo sforzo! 🏋️‍♂️</div>
     </div>
 
@@ -345,6 +383,51 @@
     <script>
         document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
 
+        // LOGICA DI INSTALLAZIONE DIRETTAMENTE COME APP VERA (PWA)
+        let deferredPrompt;
+        const btnInstalla = document.getElementById('btn-installa-app');
+
+        // Controlla se il browser supporta il Service Worker e lo registra
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log("Service Worker Attivo con successo!"))
+            .catch((err) => console.log("Errore Service Worker:", err));
+        }
+
+        // Intercetta l'evento di installazione e mostra il pulsante di download
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            btnInstalla.style.display = 'block'; // Mostra il pulsante "SCARICA APP"
+        });
+
+        btnInstalla.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('L\'utente ha scaricato il gioco sul telefono!');
+                }
+                deferredPrompt = null;
+                btnInstalla.style.display = 'none';
+            } else {
+                // Rilevamento per dispositivi Apple iOS (Safari non supporta il prompt automatico)
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIOS) {
+                    alert("Per installare questa app su iPhone: Premi il pulsante di condivisione in basso su Safari e seleziona 'Aggiungi alla schermata Home' 📲");
+                } else {
+                    alert("L'app è già installata o il browser corrente non supporta l'installazione diretta.");
+                }
+            }
+        });
+
+        // Nasconde il pulsante una volta installata
+        window.addEventListener('appinstalled', () => {
+            btnInstalla.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // --- RESTO DEL CODICE DEL GIOCO ---
         let forza = 0;
         let kgPerClickBase = 1;
         let kgAlSecondo = 0;
@@ -392,7 +475,8 @@
 
         // 3D ENGINE
         let scene, camera, renderer;
-        let characterGroup, torsoMesh, leftArm, rightArm, leftDumbbell, rightDumbbell, shortsMesh;
+        let characterGroup, torsoMesh, leftArm, rightArm, leftDumbbell, rightDumbbell, shortsMesh, headMesh;
+        let tankTopMat, shortsMat, steelMat, auraParticles;
         let speedAnim = 1.0;
 
         function inizializza3D() {
@@ -418,10 +502,6 @@
             topLight.position.set(0, 6, 3);
             scene.add(topLight);
 
-            const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
-            fillLight.position.set(0, 2, 5);
-            scene.add(fillLight);
-
             const floorGeo = new THREE.PlaneGeometry(16, 16);
             const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a1d24, roughness: 0.6 });
             const floor = new THREE.Mesh(floorGeo, floorMat);
@@ -432,53 +512,26 @@
             floorGrid.position.y = 0.005;
             scene.add(floorGrid);
 
-            const wallGeo = new THREE.PlaneGeometry(16, 6);
-            const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b4252, roughness: 0.8 });
-            const backWall = new THREE.Mesh(wallGeo, wallMat);
-            backWall.position.set(0, 2.2, -3.5);
-            scene.add(backWall);
-
-            const mirrorFrameGeo = new THREE.PlaneGeometry(5.2, 1.9);
-            const mirrorFrameMat = new THREE.MeshStandardMaterial({ color: 0xd8dee9, metalness: 0.8, roughness: 0.2 });
-            const mirrorFrame = new THREE.Mesh(mirrorFrameGeo, mirrorFrameMat);
-            mirrorFrame.position.set(0, 1.35, -3.48);
-            scene.add(mirrorFrame);
-
-            const mirrorGeo = new THREE.PlaneGeometry(5.0, 1.7);
-            const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x88c0d0, roughness: 0.1, metalness: 0.8 });
-            const mirror = new THREE.Mesh(mirrorGeo, mirrorMat);
-            mirror.position.set(0, 1.35, -3.46);
-            scene.add(mirror);
-
-            creaRastrellieraCompleta(-2.3, -2.5);
-            creaRastrellieraCompleta(2.3, -2.5);
-
-            const platformGeo = new THREE.CylinderGeometry(1.0, 1.1, 0.08, 32);
-            const platformMat = new THREE.MeshStandardMaterial({ color: 0x4c566a, roughness: 0.5 });
-            const platform = new THREE.Mesh(platformGeo, platformMat);
-            platform.position.y = 0.04;
-            scene.add(platform);
+            tankTopMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+            shortsMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, roughness: 0.6 });
+            steelMat = new THREE.MeshStandardMaterial({ color: 0x7b88a3, metalness: 0.7, roughness: 0.3 });
+            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbb5, roughness: 0.5 });
 
             characterGroup = new THREE.Group();
             characterGroup.position.set(0, 0.08, 0);
             characterGroup.rotation.y = Math.PI; 
 
-            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbb5, roughness: 0.5 });
-            const tankTopMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.5 }); 
-            const shortsMat = new THREE.MeshStandardMaterial({ color: 0x434c5e, roughness: 0.6 }); 
-            const steelMat = new THREE.MeshStandardMaterial({ color: 0x7b88a3, metalness: 0.8, roughness: 0.2 }); 
-
-            const torsoGeo = new THREE.BoxGeometry(0.5, 0.7, 0.3);
+            const torsoGeo = new THREE.BoxGeometry(0.46, 0.68, 0.28);
             torsoMesh = new THREE.Mesh(torsoGeo, tankTopMat);
             torsoMesh.position.y = 0.55;
             characterGroup.add(torsoMesh);
 
-            const shortsGeo = new THREE.BoxGeometry(0.51, 0.22, 0.31);
+            const shortsGeo = new THREE.BoxGeometry(0.48, 0.22, 0.29);
             shortsMesh = new THREE.Mesh(shortsGeo, shortsMat);
             shortsMesh.position.y = 0.18;
             characterGroup.add(shortsMesh);
 
-            const legGeo = new THREE.BoxGeometry(0.18, 0.25, 0.2);
+            const legGeo = new THREE.BoxGeometry(0.16, 0.25, 0.18);
             const leftLeg = new THREE.Mesh(legGeo, skinMat);
             leftLeg.position.set(-0.14, 0.05, 0);
             characterGroup.add(leftLeg);
@@ -487,73 +540,79 @@
             rightLeg.position.set(0.14, 0.05, 0);
             characterGroup.add(rightLeg);
 
-            const headGeo = new THREE.BoxGeometry(0.32, 0.32, 0.32);
-            const headMesh = new THREE.Mesh(headGeo, skinMat);
-            headMesh.position.y = 1.1;
+            const headGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+            headMesh = new THREE.Mesh(headGeo, skinMat);
+            headMesh.position.y = 1.08;
             characterGroup.add(headMesh);
 
             leftArm = new THREE.Group();
-            leftArm.position.set(-0.38, 0.8, 0);
-            const armGeo = new THREE.BoxGeometry(0.18, 0.45, 0.18);
+            leftArm.position.set(-0.35, 0.75, 0);
+            const armGeo = new THREE.BoxGeometry(0.16, 0.42, 0.16);
             const leftArmMesh = new THREE.Mesh(armGeo, skinMat);
             leftArmMesh.position.y = -0.15;
             leftArm.add(leftArmMesh);
-
-            leftDumbbell = creaManubrioAcciaio(steelMat);
-            leftDumbbell.position.set(0, -0.38, 0);
-            leftArm.add(leftDumbbell);
             characterGroup.add(leftArm);
 
             rightArm = new THREE.Group();
-            rightArm.position.set(0.38, 0.8, 0);
+            rightArm.position.set(0.35, 0.75, 0);
             const rightArmMesh = new THREE.Mesh(armGeo, skinMat);
             rightArmMesh.position.y = -0.15;
             rightArm.add(rightArmMesh);
-
-            rightDumbbell = creaManubrioAcciaio(steelMat);
-            rightDumbbell.position.set(0, -0.38, 0);
-            rightArm.add(rightDumbbell);
             characterGroup.add(rightArm);
 
+            aggiornaLookManubri();
             scene.add(characterGroup);
+
+            const pGeo = new THREE.BufferGeometry();
+            const pCount = 40;
+            const positions = new Float32Array(pCount * 3);
+            for(let i=0; i<pCount*3; i++) { positions[i] = (Math.random() - 0.5) * 2; }
+            pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const pMat = new THREE.PointsMaterial({ color: 0xeab308, size: 0.08, transparent: true, opacity: 0 });
+            auraParticles = new THREE.Points(pGeo, pMat);
+            scene.add(auraParticles);
+
             animate();
         }
 
-        function creaRastrellieraCompleta(x, z) {
-            const rackGroup = new THREE.Group();
-            rackGroup.position.set(x, 0, z);
-            const frameMat = new THREE.MeshStandardMaterial({ color: 0x3b4252 });
-            const plateMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.8 });
-            const poleGeo = new THREE.BoxGeometry(0.06, 0.9, 0.4);
-            const pole = new THREE.Mesh(poleGeo, frameMat);
-            pole.position.set(0, 0.45, 0);
-            rackGroup.add(pole);
+        function aggiornaLookManubri() {
+            if (leftDumbbell) leftArm.remove(leftDumbbell);
+            if (rightDumbbell) rightArm.remove(rightDumbbell);
 
-            for(let i=0; i<3; i++) {
-                const diskGeo = new THREE.CylinderGeometry(0.24 - (i*0.01), 0.24 - (i*0.01), 0.06, 16);
-                const disk = new THREE.Mesh(diskGeo, plateMat);
-                disk.position.set(0, 0.03 + (i*0.06), 0);
-                rackGroup.add(disk);
+            leftDumbbell = new THREE.Group();
+            rightDumbbell = new THREE.Group();
+
+            let raggioDisco = 0.11;
+            let spessoreDisco = 0.06;
+            let numeroDischi = 1;
+
+            if (livelloPalestra >= 4 && livelloPalestra < 7) {
+                raggioDisco = 0.18;
+                numeroDischi = 2;
+                steelMat.color.setHex(0x3f3f46);
+            } else if (livelloPalestra >= 7) {
+                raggioDisco = 0.26;
+                numeroDischi = 3;
+                steelMat.color.setHex(0x18181b);
             }
-            scene.add(rackGroup);
-        }
 
-        function creaManubrioAcciaio(materiale) {
-            const group = new THREE.Group();
-            const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8);
-            const bar = new THREE.Mesh(barGeo, materiale);
-            bar.rotation.z = Math.PI / 2;
-            group.add(bar);
+            const barGeo = new THREE.CylinderGeometry(0.018, 0.018, 0.38, 8);
+            const barL = new THREE.Mesh(barGeo, steelMat); barL.rotation.z = Math.PI / 2; leftDumbbell.add(barL);
+            const barR = new THREE.Mesh(barGeo, steelMat); barR.rotation.z = Math.PI / 2; rightDumbbell.add(barR);
 
-            const discGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.08, 16);
-            const d1 = new THREE.Mesh(discGeo, materiale);
-            d1.position.x = -0.13; d1.rotation.z = Math.PI / 2;
-            group.add(d1);
+            const discGeo = new THREE.CylinderGeometry(raggioDisco, raggioDisco, spessoreDisco, 16);
+            for(let i=0; i<numeroDischi; i++) {
+                let offset = 0.12 + (i * 0.05);
+                let dL1 = new THREE.Mesh(discGeo, steelMat); dL1.position.x = -offset; dL1.rotation.z = Math.PI / 2; leftDumbbell.add(dL1);
+                let dL2 = new THREE.Mesh(discGeo, steelMat); dL2.position.x = offset; dL2.rotation.z = Math.PI / 2; leftDumbbell.add(dL2);
+                let dR1 = new THREE.Mesh(discGeo, steelMat); dR1.position.x = -offset; dR1.rotation.z = Math.PI / 2; rightDumbbell.add(dR1);
+                let dR2 = new THREE.Mesh(discGeo, steelMat); dR2.position.x = offset; dR2.rotation.z = Math.PI / 2; rightDumbbell.add(dR2);
+            }
 
-            const d2 = new THREE.Mesh(discGeo, materiale);
-            d2.position.x = 0.13; d2.rotation.z = Math.PI / 2;
-            group.add(d2);
-            return group;
+            leftDumbbell.position.set(0, -0.36, 0);
+            rightDumbbell.position.set(0, -0.36, 0);
+            leftArm.add(leftDumbbell);
+            rightArm.add(rightDumbbell);
         }
 
         function animate() {
@@ -562,33 +621,61 @@
             let wave = Math.sin(time) * 0.4 - 0.1;
             leftArm.rotation.x = wave;
             rightArm.rotation.x = -wave;
-            if(speedAnim > 1.0) speedAnim -= 0.05;
+            if(speedAnim > 1.0) speedAnim -= 0.04;
+
+            if (livelloPalestra >= 5 && auraParticles) {
+                let pos = auraParticles.geometry.attributes.position.array;
+                for(let i=1; i<pos.length; i+=3) {
+                    pos[i] += 0.02 * speedAnim;
+                    if(pos[i] > 2) {
+                        pos[i] = 0;
+                        pos[i-1] = (Math.random() - 0.5) * 1.2;
+                        pos[i+1] = (Math.random() - 0.5) * 1.2;
+                    }
+                }
+                auraParticles.geometry.attributes.position.needsUpdate = true;
+                auraParticles.material.opacity = Math.min((speedAnim - 1) * 0.2, 0.8);
+            }
             renderer.render(scene, camera);
         }
 
         function aggiornaTaglia3D(percentuale) {
             if(!torsoMesh) return;
-            let scaleFactorX = 1.0 + (percentuale / 100) * 1.5; 
-            let scaleFactorZ = 1.0 + (percentuale / 100) * 1.0; 
+            let moltiplicatoreLivello = 1.0 + (livelloPalestra - 1) * 0.15;
+            let crescitaAttuale = (percentuale / 100) * 0.15;
+            let scalaFinaleX = moltiplicatoreLivello + crescitaAttuale;
+            let scalaFinaleZ = (moltiplicatoreLivello + crescitaAttuale) * 0.85;
 
-            torsoMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
-            shortsMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
-            leftArm.position.x = -0.28 - (0.11 * scaleFactorX);
-            rightArm.position.x = 0.28 + (0.11 * scaleFactorX);
+            torsoMesh.scale.set(scalaFinaleX, 1.0, scalaFinaleZ);
+            shortsMesh.scale.set(scalaFinaleX, 1.0, scalaFinaleZ);
+            leftArm.position.x = -0.26 - (0.12 * scalaFinaleX);
+            rightArm.position.x = 0.26 + (0.12 * scalaFinaleX);
             
-            let armScale = 1.0 + (percentuale / 100) * 0.8;
-            leftArm.scale.set(armScale, 1.0, armScale);
-            rightArm.scale.set(armScale, 1.0, armScale);
+            let scalaBraccia = 1.0 + (livelloPalestra - 1) * 0.14 + (percentuale / 100) * 0.08;
+            leftArm.scale.set(scalaBraccia, 1.0, scalaBraccia);
+            rightArm.scale.set(scalaBraccia, 1.0, scalaBraccia);
 
-            let weightScale = 1.0 + (percentuale / 100) * 1.3;
-            leftDumbbell.scale.set(weightScale, weightScale, weightScale);
-            rightDumbbell.scale.set(weightScale, weightScale, weightScale);
-
-            if (percentuale >= 80 || livelloPalestra > 10) {
-                scene.background.setHex(0x3b224c); 
+            const etichettaRango = document.getElementById("rango-evoluzione");
+            if (livelloPalestra < 4) {
+                etichettaRango.innerHTML = "Rango: Noob 🟢";
+                shortsMat.color.setHex(0x22c55e);
+                tankTopMat.color.setHex(0xffffff);
+                if(auraParticles) auraParticles.material.opacity = 0;
+            } else if (livelloPalestra >= 4 && livelloPalestra < 7) {
+                etichettaRango.innerHTML = "Rango: Pro ⚡🟠";
+                shortsMat.color.setHex(0xeab308);
+                tankTopMat.color.setHex(0x3b82f6);
+                if(auraParticles) auraParticles.material.color.setHex(0xeab308);
             } else {
-                scene.background.setHex(0x242933); 
+                etichettaRango.innerHTML = "Rango: Hacker 🔥🔴";
+                shortsMat.color.setHex(0xef4444);
+                tankTopMat.color.setHex(0x111827);
+                if(auraParticles) auraParticles.material.color.setHex(0xef4444);
             }
+
+            if (livelloPalestra >= 7) { scene.background.setHex(0x0f172a); }
+            else if (livelloPalestra >= 4) { scene.background.setHex(0x1e1b4b); }
+            else { scene.background.setHex(0x242933); }
         }
 
         function caricaSalvataggi() {
@@ -645,6 +732,7 @@
                 badge.innerText = "MAESTRO DELLA GHISA ASSOLUTO 👑";
                 document.getElementById("main-clicker").disabled = true;
             }
+            aggiornaLookManubri();
         }
 
         function playSuono(freq, tipo, duration) {
@@ -673,7 +761,7 @@
 
             let guadagnoEffettivo = Math.round(kgPerClickBase * moltiplicatoreCombo);
             forza += guadagnoEffettivo;
-            speedAnim = Math.min(speedAnim + 1.5, 8.0);
+            speedAnim = Math.min(speedAnim + 1.6, 9.0);
 
             aggiornaGrafica();
             playSuono(560 + (Math.min(comboHits, 30) * 4), 'sine', 0.04); 
@@ -693,7 +781,6 @@
             if (ora - ultimoClickTime > 1000 && comboHits > 0) {
                 comboHits = Math.floor(comboHits * 0.5) - 1;
                 if (comboHits < 0) comboHits = 0;
-                
                 if (comboHits < 5) moltiplicatoreCombo = 1.0;
                 else if (comboHits >= 5 && comboHits < 15) moltiplicatoreCombo = 1.5;
                 else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
@@ -799,7 +886,6 @@
         function aggiornaGrafica() {
             document.getElementById("forza").innerText = forza;
             document.getElementById("passivo").innerText = kgAlSecondo;
-            
             document.getElementById("costo1").innerText = costoCintura + " kg";
             document.getElementById("costo2").innerText = costoShaker + " kg";
             document.getElementById("costo3").innerText = costoCoach + " kg";
