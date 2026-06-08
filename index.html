@@ -13,13 +13,12 @@
     <title>Gym Lifting Hero 3D - Il Tempio della Ghisa</title>
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght=800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@800;900&display=swap');
 
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 900;
+            font-family: 'Fredoka One', cursive, sans-serif;
         }
         
         body {
@@ -47,13 +46,11 @@
             transition: opacity 0.4s, visibility 0.4s;
         }
         .loader-title {
-            font-family: 'Fredoka One', cursive;
-            font-size: 38px;
+            font-size: 36px;
             color: #fbbf24;
             text-align: center;
             text-transform: uppercase;
-            -webkit-text-stroke: 2px #000;
-            text-shadow: 0 6px 0 #b45309;
+            text-shadow: 0 4px 0 #b45309, 0 6px 10px rgba(0,0,0,0.5);
         }
         .loader-spinner {
             width: 60px; height: 60px;
@@ -78,12 +75,12 @@
             padding: 26px; border-radius: 24px; border: 4px solid #fbbf24;
             text-align: center; box-shadow: 0 10px 0 #b45309;
         }
-        .modal-text { font-size: 16px; color: #f9fafb; line-height: 1.5; margin-bottom: 22px; }
+        .modal-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; color: #f9fafb; line-height: 1.5; margin-bottom: 22px; }
         .modal-btn {
             background: #10b981; border: none; color: white; padding: 14px;
-            font-family: 'Fredoka One', cursive; font-size: 18px; text-transform: uppercase; border-radius: 18px;
+            font-size: 18px; text-transform: uppercase; border-radius: 18px;
             width: 100%; box-shadow: 0 5px 0 #047857; cursor: pointer;
-            -webkit-text-stroke: 1px #022c22;
+            text-shadow: 1px 1px 0px #022c22;
         }
 
         /* Intestazione */
@@ -94,13 +91,12 @@
             z-index: 10;
         }
         h1 {
-            font-family: 'Fredoka One', cursive;
-            font-size: 26px;
+            font-size: 28px;
             color: #fbbf24;
             margin: 0 0 8px 0;
             text-transform: uppercase;
-            -webkit-text-stroke: 2px #000000;
-            text-shadow: 0 4px 0 #b45309;
+            text-shadow: 0 4px 0 #b45309, 0 6px 0px #000000;
+            letter-spacing: 1px;
         }
         
         .stats-container {
@@ -128,13 +124,12 @@
             font-size: 16px;
             color: #ffffff;
             margin-top: 2px;
-            font-family: 'Fredoka One', cursive;
-            -webkit-text-stroke: 1.5px #000000;
+            text-shadow: 0 2px 0 #000000;
         }
         .stat-card span b { color: #f43f5e; }
         .stat-card span.green-glow b { color: #10b981; }
 
-        /* Contenitore Combo Ottimizzato per la leggibilità */
+        /* Contenitore Combo */
         .combo-container {
             width: 92vw;
             max-width: 360px;
@@ -155,12 +150,10 @@
             position: absolute;
             width: 100%; height: 100%; top: 0; left: 0;
             display: flex; align-items: center; justify-content: center;
-            font-size: 12px; color: white;
-            font-family: 'Fredoka One', cursive;
-            -webkit-text-stroke: 1.5px #000000;
+            font-size: 13px; color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            line-height: 28px;
+            text-shadow: 0 2px 0 #000000;
         }
 
         /* Finestra Arena 3D */
@@ -169,7 +162,7 @@
             max-width: 360px;
             height: 40vh;
             max-height: 320px;
-            background-color: #111827;
+            background-color: #242933;
             border: 4px solid #374151;
             border-radius: 24px;
             position: relative;
@@ -188,18 +181,17 @@
             position: absolute;
             top: 12px; left: 50%;
             transform: translateX(-50%);
-            font-family: 'Fredoka One', cursive;
-            font-size: 12px;
+            font-size: 11px;
             color: #ffffff;
             text-transform: uppercase;
             background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
-            padding: 6px 18px;
+            padding: 6px 14px;
             border-radius: 20px;
             border: 2px solid #ffffff;
             box-shadow: 0 4px 0 #7f1d1d, 0 4px 10px rgba(0,0,0,0.3);
             z-index: 15;
             white-space: nowrap;
-            -webkit-text-stroke: 1px #000000;
+            text-shadow: 0 1.5px 0 #000000;
         }
 
         /* Nuvoletta Incitamento Coach */
@@ -234,32 +226,31 @@
 
         /* Testo Fluttuante Cartoon */
         .floating-text {
-            position: absolute; color: #fbbf24; font-size: 30px; font-family: 'Fredoka One', cursive; pointer-events: none; z-index: 25;
-            -webkit-text-stroke: 2px #000000;
-            text-shadow: 0 4px 0 #b45309;
+            position: absolute; color: #fbbf24; font-size: 28px; pointer-events: none; z-index: 25;
+            text-shadow: 0 3px 0 #b45309, 0 4px 0 #000000;
             animation: floatUpCartoon 0.45s ease-out forwards;
         }
         @keyframes floatUpCartoon {
-            0% { transform: translateY(0) scale(0.6) rotate(-8deg); opacity: 1; }
-            100% { transform: translateY(-60px) scale(1.2) rotate(8deg); opacity: 0; }
+            0% { transform: translateY(0) scale(0.7) rotate(-8deg); opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.1) rotate(8deg); opacity: 0; }
         }
 
-        /* Pulsantone di allenamento */
+        /* Pulsantone Principale - CORRETTO E ULTRA LEGGIBILE */
         .action-area { width: 100%; display: flex; justify-content: center; }
         .btn-allena {
-            width: 88vw; max-width: 340px; height: 60px;
+            width: 88vw; max-width: 340px; height: 62px;
             border-radius: 22px; border: 3px solid #ffffff;
-            background: linear-gradient(to bottom, #f97316, #ea580c);
-            color: white; font-family: 'Fredoka One', cursive; font-size: 24px; text-transform: uppercase;
-            box-shadow: 0 6px 0 #9a3412, 0 10px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to bottom, #ff7e1a, #e64a00);
+            color: #ffffff; font-size: 24px; text-transform: uppercase;
+            box-shadow: 0 6px 0 #993300, 0 10px 20px rgba(0, 0, 0, 0.4);
             cursor: pointer; touch-action: manipulation;
             transition: transform 0.05s, box-shadow 0.05s;
-            -webkit-text-stroke: 2px #431407;
-            letter-spacing: 1px;
+            text-shadow: 0 3px 0 #732600, 0 4px 3px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
         }
         .btn-allena:active {
             transform: translateY(4px);
-            box-shadow: 0 2px 0 #9a3412, 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 0 #993300, 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         /* Area Shop */
@@ -267,7 +258,7 @@
             width: 100%; background: #111827;
             border-top: 4px solid #1f2937;
             padding: 14px; display: flex; flex-direction: column; gap: 10px;
-            max-height: 250px; overflow-y: auto;
+            max-height: 240px; overflow-y: auto;
         }
         .btn-shop {
             background: #1f2937; border: 2px solid #374151;
@@ -275,18 +266,17 @@
             font-size: 13px; display: flex; justify-content: space-between; align-items: center;
             width: 100%; box-shadow: 0 4px 0 #0f172a; cursor: pointer;
         }
-        .btn-shop span { display: flex; align-items: center; gap: 6px; }
+        .btn-shop span { display: flex; align-items: center; gap: 6px; font-family: 'Nunito', sans-serif; font-weight: 900; }
         .btn-shop b { 
-            color: #000000; font-size: 12px; font-family: 'Fredoka One', cursive;
+            color: #000000; font-size: 12px;
             background: #fbbf24; padding: 5px 12px; border-radius: 12px; 
             box-shadow: inset 0 -2px 0 #b45309; border: 1px solid #000000;
         }
         .btn-shop:disabled { opacity: 0.3; box-shadow: 0 2px 0 #0f172a; transform: translateY(2px); cursor: not-allowed; }
 
-        .reset-btn { background: transparent; border: none; color: #6b7280; font-size: 11px; text-decoration: underline; margin: 6px 0; cursor: pointer; }
+        .reset-btn { background: transparent; border: none; color: #6b7280; font-size: 11px; text-decoration: underline; margin: 6px 0; cursor: pointer; font-family: 'Nunito', sans-serif; }
     </style>
 
-    <!-- Libreria 3D Realtime WebGL -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -394,10 +384,9 @@
         let fumettoTimeout;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // ARCHITETTURA DEL MOTORE PALESTRA 3D CORRETTA
+        // 3D ENGINE
         let scene, camera, renderer;
-        let characterGroup, torsoMesh, headMesh, leftArm, rightArm, leftDumbbell, rightDumbbell;
-        let shortsMesh;
+        let characterGroup, torsoMesh, leftArm, rightArm, leftDumbbell, rightDumbbell, shortsMesh;
         let speedAnim = 1.0;
 
         function inizializza3D() {
@@ -408,94 +397,84 @@
             scene = new THREE.Scene();
             scene.background = new THREE.Color('#242933'); 
 
-            // Arretrata e alzata leggermente la telecamera per inquadrare meglio l'intera scena
             camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-            camera.position.set(0, 1.9, 4.8);
+            camera.position.set(0, 1.8, 4.6);
             camera.lookAt(0, 0.75, 0);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(width, height);
             container.appendChild(renderer.domElement);
 
-            // ILLUMINAZIONE POTENZIATA (Risolve il problema del modello troppo scuro)
+            // LUCI BILANCIATE (Nessun riflesso sferico accecante sullo specchio)
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
             scene.add(ambientLight);
 
-            const topLight = new THREE.DirectionalLight(0xffffff, 0.9);
-            topLight.position.set(0, 5, 4);
+            const topLight = new THREE.DirectionalLight(0xffffff, 0.7);
+            topLight.position.set(0, 6, 3);
             scene.add(topLight);
 
-            const frontLight = new THREE.PointLight(0xffffff, 0.5, 10);
-            frontLight.position.set(0, 1.5, 3);
-            scene.add(frontLight);
+            const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
+            fillLight.position.set(0, 2, 5);
+            scene.add(fillLight);
 
-            // PAVIMENTO GOMMATO
+            // SCENOGRAFIA
             const floorGeo = new THREE.PlaneGeometry(16, 16);
             const floorMat = new THREE.MeshStandardMaterial({ color: 0x1a1d24, roughness: 0.6 });
             const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             scene.add(floor);
 
-            const floorGrid = new THREE.GridHelper(16, 8, 0x2e3440, 0x2a2f3a);
+            const floorGrid = new THREE.GridHelper(16, 10, 0x2e3440, 0x2a2f3a);
             floorGrid.position.y = 0.005;
             scene.add(floorGrid);
 
-            // MURO DI FONDO - Abbassato per non interferire con l'interfaccia superiore
             const wallGeo = new THREE.PlaneGeometry(16, 6);
             const wallMat = new THREE.MeshStandardMaterial({ color: 0x3b4252, roughness: 0.8 });
             const backWall = new THREE.Mesh(wallGeo, wallMat);
             backWall.position.set(0, 2.2, -3.5);
             scene.add(backWall);
 
-            // SPECCHIO DA PALESTRA CON CORNICE - Abbassato per evitare sovrapposizioni con il testo del livello
-            const mirrorFrameGeo = new THREE.PlaneGeometry(5.2, 2.0);
-            const mirrorFrameMat = new THREE.MeshStandardMaterial({ color: 0xd8dee9, metalness: 0.9, roughness: 0.1 });
+            const mirrorFrameGeo = new THREE.PlaneGeometry(5.2, 1.9);
+            const mirrorFrameMat = new THREE.MeshStandardMaterial({ color: 0xd8dee9, metalness: 0.8, roughness: 0.2 });
             const mirrorFrame = new THREE.Mesh(mirrorFrameGeo, mirrorFrameMat);
-            mirrorFrame.position.set(0, 1.5, -3.48);
+            mirrorFrame.position.set(0, 1.35, -3.48);
             scene.add(mirrorFrame);
 
-            const mirrorGeo = new THREE.PlaneGeometry(5.0, 1.8);
-            const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x88c0d0, roughness: 0.05, metalness: 0.95 });
+            const mirrorGeo = new THREE.PlaneGeometry(5.0, 1.7);
+            const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x88c0d0, roughness: 0.1, metalness: 0.8 });
             const mirror = new THREE.Mesh(mirrorGeo, mirrorMat);
-            mirror.position.set(0, 1.5, -3.46);
+            mirror.position.set(0, 1.35, -3.46);
             scene.add(mirror);
 
-            // RASTRELLIERE MANUBRI
             creaRastrellieraCompleta(-2.3, -2.5);
             creaRastrellieraCompleta(2.3, -2.5);
 
-            // PEDANA CIRCOLARE SOTTO L'ATLETA
             const platformGeo = new THREE.CylinderGeometry(1.0, 1.1, 0.08, 32);
-            const platformMat = new THREE.MeshStandardMaterial({ color: 0x4c566a, roughness: 0.4, metalness: 0.3 });
+            const platformMat = new THREE.MeshStandardMaterial({ color: 0x4c566a, roughness: 0.5 });
             const platform = new THREE.Mesh(platformGeo, platformMat);
             platform.position.y = 0.04;
             scene.add(platform);
 
-            // STRUTTURA DEL PERSONAGGIO MODELLO ROBLOX
+            // MODELLO PERSONAGGIO (FRONTE CORRETTO)
             characterGroup = new THREE.Group();
             characterGroup.position.set(0, 0.08, 0);
-
-            // ROTAZIONE COMPLETA DI 180 GRADI (Risolve il problema del modello girato di spalle)
-            characterGroup.rotation.y = Math.PI;
+            characterGroup.rotation.y = Math.PI; 
 
             const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbb5, roughness: 0.5 });
             const tankTopMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.5 }); 
             const shortsMat = new THREE.MeshStandardMaterial({ color: 0x434c5e, roughness: 0.6 }); 
-            const steelMat = new THREE.MeshStandardMaterial({ color: 0x8892b0, metalness: 0.9, roughness: 0.1 }); 
+            const steelMat = new THREE.MeshStandardMaterial({ color: 0x7b88a3, metalness: 0.8, roughness: 0.2 }); 
 
-            // Torso (Canotta)
             const torsoGeo = new THREE.BoxGeometry(0.5, 0.7, 0.3);
             torsoMesh = new THREE.Mesh(torsoGeo, tankTopMat);
             torsoMesh.position.y = 0.55;
             characterGroup.add(torsoMesh);
 
-            // Pantaloncini
             const shortsGeo = new THREE.BoxGeometry(0.51, 0.22, 0.31);
             shortsMesh = new THREE.Mesh(shortsGeo, shortsMat);
             shortsMesh.position.y = 0.18;
             characterGroup.add(shortsMesh);
 
-            // Gambe solide a blocco
             const legGeo = new THREE.BoxGeometry(0.18, 0.25, 0.2);
             const leftLeg = new THREE.Mesh(legGeo, skinMat);
             leftLeg.position.set(-0.14, 0.05, 0);
@@ -505,13 +484,11 @@
             rightLeg.position.set(0.14, 0.05, 0);
             characterGroup.add(rightLeg);
 
-            // Testa quadrata classica
             const headGeo = new THREE.BoxGeometry(0.32, 0.32, 0.32);
-            headMesh = new THREE.Mesh(headGeo, skinMat);
+            const headMesh = new THREE.Mesh(headGeo, skinMat);
             headMesh.position.y = 1.1;
             characterGroup.add(headMesh);
 
-            // Arto Superiore Sinistro Articolato
             leftArm = new THREE.Group();
             leftArm.position.set(-0.38, 0.8, 0);
             const armGeo = new THREE.BoxGeometry(0.18, 0.45, 0.18);
@@ -524,7 +501,6 @@
             leftArm.add(leftDumbbell);
             characterGroup.add(leftArm);
 
-            // Arto Superiore Destro Articolato
             rightArm = new THREE.Group();
             rightArm.position.set(0.38, 0.8, 0);
             const rightArmMesh = new THREE.Mesh(armGeo, skinMat);
@@ -537,17 +513,14 @@
             characterGroup.add(rightArm);
 
             scene.add(characterGroup);
-
             animate();
         }
 
         function creaRastrellieraCompleta(x, z) {
             const rackGroup = new THREE.Group();
             rackGroup.position.set(x, 0, z);
-
-            const frameMat = new THREE.MeshStandardMaterial({ color: 0x3b4252, metalness: 0.5 });
+            const frameMat = new THREE.MeshStandardMaterial({ color: 0x3b4252 });
             const plateMat = new THREE.MeshStandardMaterial({ color: 0x2e3440, roughness: 0.8 });
-
             const poleGeo = new THREE.BoxGeometry(0.06, 0.9, 0.4);
             const pole = new THREE.Mesh(poleGeo, frameMat);
             pole.position.set(0, 0.45, 0);
@@ -564,7 +537,6 @@
 
         function creaManubrioAcciaio(materiale) {
             const group = new THREE.Group();
-            
             const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.36, 8);
             const bar = new THREE.Mesh(barGeo, materiale);
             bar.rotation.z = Math.PI / 2;
@@ -572,40 +544,32 @@
 
             const discGeo = new THREE.CylinderGeometry(0.13, 0.13, 0.08, 16);
             const d1 = new THREE.Mesh(discGeo, materiale);
-            d1.position.x = -0.13;
-            d1.rotation.z = Math.PI / 2;
+            d1.position.x = -0.13; d1.rotation.z = Math.PI / 2;
             group.add(d1);
 
             const d2 = new THREE.Mesh(discGeo, materiale);
-            d2.position.x = 0.13;
-            d2.rotation.z = Math.PI / 2;
+            d2.position.x = 0.13; d2.rotation.z = Math.PI / 2;
             group.add(d2);
             return group;
         }
 
         function animate() {
             requestAnimationFrame(animate);
-
             let time = Date.now() * 0.003 * speedAnim;
             let wave = Math.sin(time) * 0.4 - 0.1;
-            
             leftArm.rotation.x = wave;
-            rightArm.rotation.x = -wave; // Movimento alternato corretto delle braccia
-
+            rightArm.rotation.x = -wave;
             if(speedAnim > 1.0) speedAnim -= 0.05;
-
             renderer.render(scene, camera);
         }
 
         function aggiornaTaglia3D(percentuale) {
             if(!torsoMesh) return;
-
             let scaleFactorX = 1.0 + (percentuale / 100) * 1.5; 
             let scaleFactorZ = 1.0 + (percentuale / 100) * 1.0; 
 
             torsoMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
             shortsMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
-            
             leftArm.position.x = -0.28 - (0.11 * scaleFactorX);
             rightArm.position.x = 0.28 + (0.11 * scaleFactorX);
             
@@ -651,7 +615,7 @@
         }
 
         function resetGioco() {
-            if(confirm("Desideri azzerare i tuoi progressi e ricominciare il tuo percorso di allenamento da zero?")) {
+            if(confirm("Desideri azzerare i tuoi progressi e ricominciare da zero?")) {
                 localStorage.clear();
                 window.location.reload();
             }
@@ -662,7 +626,6 @@
             inizializza3D();
             setupLivelloCorrente();
             aggiornaGrafica();
-
             setTimeout(() => {
                 const loader = document.getElementById('loading-screen');
                 loader.style.opacity = '0';
@@ -696,7 +659,6 @@
         function allenaMatteo(e) {
             if (livelloPalestra > 10 || modalAttivo) return;
             let ora = Date.now();
-            
             if (ora - ultimoClickTime < 900) comboHits += 1;
             else comboHits = 1;
             ultimoClickTime = ora;
@@ -708,16 +670,13 @@
 
             let guadagnoEffettivo = Math.round(kgPerClickBase * moltiplicatoreCombo);
             forza += guadagnoEffettivo;
-            
             speedAnim = Math.min(speedAnim + 1.5, 8.0);
 
             aggiornaGrafica();
             playSuono(560 + (Math.min(comboHits, 30) * 4), 'sine', 0.04); 
-
             creaTestoFluttuante("+" + guadagnoEffettivo + " kg");
 
             if (Math.random() < 0.15) lanciaIncitamento();
-
             salvaProgressi(); 
             controllaAvanzamento();
         }
@@ -736,10 +695,6 @@
                 else if (comboHits >= 5 && comboHits < 15) moltiplicatoreCombo = 1.5;
                 else if (comboHits >= 15 && comboHits < 30) moltiplicatoreCombo = 2.0;
                 else moltiplicatoreCombo = 3.0;
-
-                const bar = document.getElementById("combo-bar");
-                bar.style.width = Math.min((comboHits / 30) * 100, 100) + "%";
-                document.getElementById("combo-text").innerText = `Moltiplicatore: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
                 aggiornaGrafica();
             }
         }, 300);
@@ -750,7 +705,6 @@
             fumetto.innerText = incitamenti[Math.floor(Math.random() * incitamenti.length)];
             fumetto.style.opacity = "1";
             fumetto.style.transform = "translateX(-50%) scale(1)";
-            
             clearTimeout(fumettoTimeout);
             fumettoTimeout = setTimeout(() => {
                 fumetto.style.opacity = "0";
@@ -803,7 +757,6 @@
         function chiudiModal() {
             document.getElementById("custom-modal").classList.remove("show");
             modalAttivo = false;
-            
             if (livelloPalestra < 10) {
                 livelloPalestra += 1;
                 let increment = livelloPalestra * 3;
@@ -825,7 +778,6 @@
             if (forza >= traguardo) {
                 forza = 0; 
                 playSuono(140, 'sawtooth', 0.35); 
-                
                 setTimeout(() => {
                     if (livelloPalestra === 1) mostraModal("🏆 COMPLIMENTI! Hai superato l'Ingresso della Manhattan. Si aprono le porte della Sala Pesi principale!");
                     else if (livelloPalestra === 2) mostraModal("🏆 ECCELLENTE! La Sala Pesi della Manhattan è ormai stretta per i tuoi muscoli. Avanza verso l'Area Specchi!");
@@ -836,7 +788,7 @@
                     else if (livelloPalestra === 7) mostraModal("🏆 ONDA SPAZIALE! L'Orbita Terrestre è tua. Il Sistema Solare intero comincia ad essere attratto dalla tua massa muscolare!");
                     else if (livelloPalestra === 8) mostraModal("🏆 GRAVITÀ SUPERATA! Il Sistema Solare si piega al tuo volere. Prossima tappa: l'intera Via Lattea!");
                     else if (livelloPalestra === 9) mostraModal("🏆 GALASSIA CONQUISTATA! La Via Lattea è dominata. Accedi ora alla fase finale: Il Multiverso!");
-                    else mostraModal("👑 DIO SUPREMO DELLA GHISA! Hai completato l'intero percorso d'allenamento e sbloccato il controllo totale del Multiverso! Il tuo corpo ha raggiunto il potenziale massimo. Gioco completato! 🔥💪⚡");
+                    else mostraModal("👑 DIO SUPREMO DELLA GHISA! Hai completato l'intero percorso d'allenamento e sbloccato il controllo totale del Multiverso! Gioco completato! 🔥💪⚡");
                 }, 100);
             }
         }
@@ -860,7 +812,6 @@
                 let traguardo = targetForza[livelloPalestra - 1];
                 let pct = Math.min((forza / traguardo) * 100, 100);
                 pBar.style.width = pct + "%";
-                
                 aggiornaTaglia3D(pct);
             } else {
                 pBar.style.width = "100%";
