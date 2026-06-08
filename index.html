@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a73e8">
     
-    <title>Andretta: Gym Lifting Hero 3D</title>
+    <title>Gym Lifting Hero 3D - Il Tempio della Ghisa</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght=800;900&display=swap');
@@ -65,7 +65,7 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* Titoli e Intestazione */
+        /* Intestazione */
         header {
             width: 100%;
             text-align: center;
@@ -74,7 +74,7 @@
         }
         h1 {
             font-family: 'Fredoka One', cursive;
-            font-size: 22px;
+            font-size: 24px;
             color: #ffcc00;
             margin: 0 0 6px 0;
             text-transform: uppercase;
@@ -110,7 +110,7 @@
         }
         .stat-card span b { color: #e11d48; }
 
-        /* Barra Moltiplicatore Combo */
+        /* Moltiplicatore Combo */
         .combo-container {
             width: 92vw;
             max-width: 360px;
@@ -136,13 +136,13 @@
             text-transform: uppercase;
         }
 
-        /* L'ARENA DIVENTA IL CONTENITORE DEL CANVAS 3D */
+        /* L'Arena / Finestra sul mondo 3D */
         #arena {
             width: 92vw;
             max-width: 360px;
-            height: 36vh;
-            max-height: 280px;
-            background-color: #3b82f6;
+            height: 38vh;
+            max-height: 300px;
+            background-color: #2c3e50;
             border: 4px solid #ffffff;
             border-radius: 24px;
             position: relative;
@@ -151,7 +151,6 @@
             margin: 6px 0;
         }
         
-        /* Il Canvas di Three.js occupa tutto lo spazio di #arena */
         canvas {
             width: 100%;
             height: 100%;
@@ -162,11 +161,11 @@
             position: absolute;
             top: 10px; left: 50%;
             transform: translateX(-50%);
-            font-size: 11px;
+            font-size: 12px;
             color: #ffffff;
             text-transform: uppercase;
             background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-            padding: 5px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
             border: 2px solid #ffffff;
             box-shadow: 0 4px 0 #7f1d1d;
@@ -174,13 +173,13 @@
             white-space: nowrap;
         }
 
-        /* Nuvoletta Fumetto */
+        /* Nuvoletta Incitamento Coach */
         #fumetto {
             position: absolute; top: 55px; left: 50%;
             transform: translateX(-50%) scale(0.8);
             background: #ffffff; color: #1e293b;
             padding: 6px 12px; border-radius: 14px;
-            font-size: 11px; max-width: 180px; text-align: center;
+            font-size: 11px; max-width: 200px; text-align: center;
             box-shadow: 0 4px 0 rgba(0,0,0,0.2);
             border: 2px solid #0a2266;
             opacity: 0; transition: all 0.15s ease; z-index: 10;
@@ -203,7 +202,7 @@
             transition: width 0.2s ease;
         }
 
-        /* Testo Fluttuante 3D Pop */
+        /* Testo Fluttuante Giallo Pop */
         .floating-text {
             position: absolute; color: #ffeb3b; font-size: 28px; font-family: 'Fredoka One', cursive; pointer-events: none; z-index: 10;
             -webkit-text-stroke: 2px #000;
@@ -221,11 +220,12 @@
             width: 88vw; max-width: 340px; height: 56px;
             border-radius: 20px; border: 2px solid #ffffff;
             background: linear-gradient(to bottom, #ff9800, #e65100);
-            color: white; font-family: 'Fredoka One', cursive; font-size: 20px; text-transform: uppercase;
+            color: white; font-family: 'Fredoka One', cursive; font-size: 22px; text-transform: uppercase;
             box-shadow: 0 6px 0 #a33600, 0 10px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer; touch-action: manipulation;
             transition: transform 0.05s, box-shadow 0.05s;
-            -webkit-text-stroke: 1px #5c1e00;
+            -webkit-text-stroke: 1.5px #5c1e00;
+            letter-spacing: 1px;
         }
         .btn-allena:active {
             transform: translateY(4px);
@@ -237,12 +237,12 @@
             width: 100%; background: #0f3cb4;
             border-top: 4px solid #ffffff;
             padding: 12px; display: flex; flex-direction: column; gap: 8px;
-            max-height: 30vh; overflow-y: auto;
+            max-height: 280px; overflow-y: auto;
         }
         .btn-shop {
             background: #1d4ed8; border: 2px solid #ffffff;
-            color: #ffffff; padding: 10px 14px; border-radius: 16px;
-            font-size: 11px; display: flex; justify-content: space-between; align-items: center;
+            color: #ffffff; padding: 12px 14px; border-radius: 16px;
+            font-size: 12px; display: flex; justify-content: space-between; align-items: center;
             width: 100%; box-shadow: 0 4px 0 #0c2366;
         }
         .btn-shop b { color: #000000; font-size: 12px; background: #ffcc00; padding: 4px 10px; border-radius: 10px; box-shadow: inset 0 -2px 0 #ca8a04; }
@@ -250,7 +250,7 @@
 
         .reset-btn { background: transparent; border: none; color: #93c5fd; font-size: 10px; text-decoration: underline; margin: 4px 0; }
 
-        /* Modal di Fine Livello */
+        /* Schermata Modale Avanzamento */
         #custom-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(4px);
@@ -263,7 +263,7 @@
             padding: 24px; border-radius: 24px; border: 4px solid #ffcc00;
             text-align: center; box-shadow: 0 10px 0 #ca8a04;
         }
-        .modal-text { font-size: 14px; color: #1e293b; line-height: 1.5; margin-bottom: 20px; }
+        .modal-text { font-size: 15px; color: #1e293b; line-height: 1.5; margin-bottom: 20px; }
         .modal-btn {
             background: #22c55e; border: none; color: white; padding: 12px;
             font-family: 'Fredoka One', cursive; font-size: 16px; text-transform: uppercase; border-radius: 16px;
@@ -283,12 +283,12 @@
     <div id="custom-modal">
         <div class="modal-content">
             <div id="modal-msg" class="modal-text">Messaggio</div>
-            <button class="modal-btn" onclick="chiudiModal()">AVANTI AL PROSSIMO 🚀</button>
+            <button class="modal-btn" onclick="chiudiModal()">AVANTI AL PROSSIMO LIVELLO 🚀</button>
         </div>
     </div>
 
     <header>
-        <h1>Andretta: Lifting Hero 3D</h1>
+        <h1>Gym Lifting Hero 3D</h1>
         <div class="stats-container">
             <div class="stat-card">Forza Totale <span><b id="forza">0</b> kg</span></div>
             <div class="stat-card">Auto-Allenamento <span>+<b id="passivo">0</b> kg/s</span></div>
@@ -302,31 +302,31 @@
 
     <div id="arena">
         <div id="nome-palestra">Caricamento...</div>
-        <div id="fumetto">Sei solo un secco! 😡</div>
-        </div>
+        <div id="fumetto">Ancora un piccolo sforzo! 🏋️‍♂️</div>
+    </div>
 
     <div class="level-progress-container">
         <div id="level-progress-bar" class="level-progress-bar"></div>
     </div>
 
     <div class="action-area">
-        <button class="btn-allena" id="main-clicker">SOLLEVA PESI! 🏋️‍♂️💪</button>
+        <button class="btn-allena" id="main-clicker">SOLLEVA I PESI! 💪</button>
     </div>
 
     <button class="reset-btn" onclick="resetGioco()">Azzera Progressi</button>
 
     <div class="shop">
         <button class="btn-shop" id="upgrade1" onclick="compraUpgrade(1)">
-            <span>🎒 Cintura Lifter (+1 kg/s)</span> <b id="costo1">50 kg</b>
+            <span>🎒 Cintura da Sollevamento (+1 kg/s)</span> <b id="costo1">50 kg</b>
         </button>
         <button class="btn-shop" id="upgrade2" onclick="compraUpgrade(2)">
-            <span>🥤 Shaker Proteico (+8 kg/s)</span> <b id="costo2">300 kg</b>
+            <span>🥤 Shaker Proteico Avanzato (+8 kg/s)</span> <b id="costo2">300 kg</b>
         </button>
         <button class="btn-shop" id="upgrade3" onclick="compraUpgrade(3)">
-            <span>🔥 Sguardo del Coach (+50 kg/s)</span> <b id="costo3">2000 kg</b>
+            <span>🔥 Supporto del Coach Personale (+50 kg/s)</span> <b id="costo3">2000 kg</b>
         </button>
         <button class="btn-shop" id="upgrade4" onclick="compraUpgrade(4)">
-            <span>🛠️ Ghisa Abusiva (+4 kg per Click)</span> <b id="costo4">800 kg</b>
+            <span>🛠️ Dischi di Ghisa Extra (+4 kg per Click)</span> <b id="costo4">800 kg</b>
         </button>
     </div>
 
@@ -348,33 +348,41 @@
         let moltiplicatoreCombo = 1.0;
         let modalAttivo = false;
 
+        // Testi ripristinati e corretti grammaticalmente
         const palestre = [
-            "Livello 1: Ingresso Manhattan 🧱", "Livello 2: Sala Pesi Manhattan 🏋️‍♂️",
-            "Livello 3: Area Specchi & Cardio 🪞", "Livello 4: L'Intero Edificio Manhattan 🏢",
-            "Livello 5: La Città di Melito 🏙️💥", "Livello 6: Il Vesuvio (Ghisa Liquida) 🌋",
-            "Livello 7: Orbita Terrestre 🌍🛰️", "Livello 8: Il Sistema Solare ☀️",
-            "Livello 9: La Via Lattea dei Bicipiti 🌌", "Livello Final: Il Multiverso Ultra-Grosso 👁️✨"
+            "Livello 1: Ingresso della Manhattan 🧱", 
+            "Livello 2: Sala Pesi della Manhattan 🏋️‍♂️",
+            "Livello 3: Area Specchi e Cardio della Manhattan 🪞", 
+            "Livello 4: L'Intero Edificio della Manhattan 🏢",
+            "Livello 5: La Città di Melito 🏙️💥", 
+            "Livello 6: Il Vesuvio (Ghisa Liquida) 🌋",
+            "Livello 7: Orbita Terrestre 🌍🛰️", 
+            "Livello 8: Il Sistema Solare ☀️",
+            "Livello 9: La Via Lattea dei Bicipiti 🌌", 
+            "Livello Final: Il Multiverso Ultra-Grosso 👁️✨"
         ];
         
         const targetForza = [500, 2500, 10000, 40000, 120000, 350000, 1000000, 4000000, 15000000, 50000000];
         const coloriLivelli = ["#ef4444", "#22c55e", "#3b82f6", "#a855f7", "#eab308", "#f97316", "#14b8a6", "#f97316", "#475569", "#ec4899"];
 
-        const insulti = [
-            "Sei solo un secco di m***a! 😡", "SPINGI QUEL BILANCIERE CHRISTIAN!",
-            "SPINGI QUEL BILANCIERE LUIGI!", "Ma cosa fai? Mangi solo insalatina? 🥗",
-            "Le tue braccia sembrano grissini! 🥖", "Meno chiacchiere e più ghisa! 🤬",
-            "Guarda che le vene si devono gonfiare! ⚡", "Se n’è andata tutta la forza? Spingi!",
-            "Melito trema davanti al tuo pompaggio! 🏙️"
+        const incitamenti = [
+            "Ancora una ripetizione! Non mollare! 🔥",
+            "Senti i muscoli che lavorano! 💪",
+            "Ottima tecnica! Continua così! ✨",
+            "La ghisa non si solleva da sola! Spingi! 🏋️‍♂️",
+            "Concentrati sulla contrazione! 🧠",
+            "Niente scuse, solo duro lavoro! 🤬",
+            "Stai diventando una macchina! ⚡",
+            "Il successo richiede costanza! Dai!"
         ];
 
         let fumettoTimeout;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // ELEMENTI ENGINE 3D (THREE.JS)
+        // MOTORE PALESTRA 3D
         let scene, camera, renderer;
         let characterGroup, torsoMesh, headMesh, leftArm, rightArm, leftDumbbell, rightDumbbell;
-        let floorGrid;
-        let baseArmY = 0.5;
+        let shortsMesh;
         let speedAnim = 1.0;
 
         function inizializza3D() {
@@ -382,111 +390,163 @@
             const width = container.clientWidth;
             const height = container.clientHeight;
 
-            // Creazione Scena
             scene = new THREE.Scene();
-            scene.background = new THREE.Color('#3b82f6');
+            scene.background = new THREE.Color('#3a4454'); // Atmosfera industriale da palestra
 
-            // Telecamera prospettica da gioco mobile
             camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-            camera.position.set(0, 2.2, 5);
+            camera.position.set(0, 2.0, 4.8);
             camera.lookAt(0, 0.9, 0);
 
-            // Renderer WebGL ad alte prestazioni
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(width, height);
-            renderer.shadowMap.enabled = true;
             container.appendChild(renderer.domElement);
 
-            // Luci d'effetto stile cartoon
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambientLight);
 
-            const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            dirLight.position.set(5, 8, 5);
-            scene.add(dirLight);
+            const spotLight = new THREE.SpotLight(0xffffff, 0.8);
+            spotLight.position.set(2, 5, 4);
+            scene.add(spotLight);
 
-            // Pedana Circolare (Podio di image_8a5e9f.jpg)
-            const podiumGeo = new THREE.CylinderGeometry(1.2, 1.3, 0.15, 32);
-            const podiumMat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, roughness: 0.2, metalness: 0.1 });
-            const podium = new THREE.Mesh(podiumGeo, podiumMat);
-            podium.position.y = 0.075;
-            scene.add(podium);
+            // Pavimento gommato a scacchi scuri da sala pesi
+            const floorGeo = new THREE.PlaneGeometry(20, 20);
+            const floorMat = new THREE.MeshStandardMaterial({ color: 0x22252c, roughness: 0.5 });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.rotation.x = -Math.PI / 2;
+            scene.add(floor);
 
-            // Pavimento a scacchi stilizzato sul fondo
-            const gridHelper = new THREE.GridHelper(20, 20, 0xffffff, 0x1d4ed8);
+            const gridHelper = new THREE.GridHelper(20, 20, 0x4f46e5, 0x374151);
             gridHelper.position.y = 0.01;
             scene.add(gridHelper);
 
-            // CREAZIONE GRUPPO PERSONAGGIO STILO ROBLOX
+            // Muro di fondo della palestra
+            const wallGeo = new THREE.PlaneGeometry(20, 6);
+            const wallMat = new THREE.MeshStandardMaterial({ color: 0x4b5563, roughness: 0.7 });
+            const backWall = new THREE.Mesh(wallGeo, wallMat);
+            backWall.position.set(0, 3, -4);
+            scene.add(backWall);
+
+            // Specchio stilizzato sul muro di fondo
+            const mirrorGeo = new THREE.PlaneGeometry(6, 2.5);
+            const mirrorMat = new THREE.MeshStandardMaterial({ color: 0x93c5fd, roughness: 0.1, metalness: 0.9 });
+            const mirror = new THREE.Mesh(mirrorGeo, mirrorMat);
+            mirror.position.set(0, 2.2, -3.95);
+            scene.add(mirror);
+
+            // Rastrelliere dischi decorative ai lati
+            creaRastrellieraPesi(-2.2, -3.5);
+            creaRastrellieraPesi(2.2, -3.5);
+
+            // Pedana circolare neon da sollevamento sotto l'atleta
+            const podiumGeo = new THREE.CylinderGeometry(1.1, 1.2, 0.12, 32);
+            const podiumMat = new THREE.MeshStandardMaterial({ color: 0x0ea5e9, roughness: 0.3, metalness: 0.2 });
+            const podium = new THREE.Mesh(podiumGeo, podiumMat);
+            podium.position.y = 0.06;
+            scene.add(podium);
+
+            // CREAZIONE PERSONAGGIO STILE ROBLOX CARTOON
             characterGroup = new THREE.Group();
-            characterGroup.position.set(0, 0.15, 0);
+            characterGroup.position.set(0, 0.12, 0);
 
-            // Materiale Pelle e Canotta Bianca
-            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffdbac, roughness: 0.4 });
-            const shirtMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
-            const weightMat = new THREE.MeshStandardMaterial({ color: 0x333333, metalness: 0.8, roughness: 0.2 });
+            const skinMat = new THREE.MeshStandardMaterial({ color: 0xffcc99, roughness: 0.4 });
+            const shirtMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+            const shortsMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.6 }); // Pantaloncini mimetici
+            const weightMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.7, roughness: 0.3 });
 
-            // Torso (Blocco)
-            const torsoGeo = new THREE.BoxGeometry(0.5, 0.8, 0.3);
+            // Torso (Canotta)
+            const torsoGeo = new THREE.BoxGeometry(0.5, 0.7, 0.3);
             torsoMesh = new THREE.Mesh(torsoGeo, shirtMat);
-            torsoMesh.position.y = 0.4;
+            torsoMesh.position.y = 0.55;
             characterGroup.add(torsoMesh);
 
-            // Testa
-            const headGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+            // Pantaloncini
+            const shortsGeo = new THREE.BoxGeometry(0.52, 0.22, 0.32);
+            shortsMesh = new THREE.Mesh(shortsGeo, shortsMat);
+            shortsMesh.position.y = 0.18;
+            characterGroup.add(shortsMesh);
+
+            // Gambe stabili a blocchi
+            const legGeo = new THREE.BoxGeometry(0.18, 0.25, 0.2);
+            const leftLeg = new THREE.Mesh(legGeo, skinMat);
+            leftLeg.position.set(-0.14, 0.05, 0);
+            characterGroup.add(leftLeg);
+
+            const rightLeg = new THREE.Mesh(legGeo, skinMat);
+            rightLeg.position.set(0.14, 0.05, 0);
+            characterGroup.add(rightLeg);
+
+            // Testa quadrata
+            const headGeo = new THREE.BoxGeometry(0.32, 0.32, 0.32);
             headMesh = new THREE.Mesh(headGeo, skinMat);
-            headMesh.position.y = 1.0;
+            headMesh.position.y = 1.1;
             characterGroup.add(headMesh);
 
-            // Braccio Sinistro (Infulcrato dall'alto per ruotare)
+            // Braccio Sinistro articolato
             leftArm = new THREE.Group();
-            leftArm.position.set(-0.38, 0.7, 0);
-            const armGeo = new THREE.BoxGeometry(0.18, 0.5, 0.18);
+            leftArm.position.set(-0.38, 0.8, 0);
+            const armGeo = new THREE.BoxGeometry(0.18, 0.45, 0.18);
             const leftArmMesh = new THREE.Mesh(armGeo, skinMat);
-            leftArmMesh.position.y = -0.2;
+            leftArmMesh.position.y = -0.15;
             leftArm.add(leftArmMesh);
 
-            // Manubrio Sinistro
             leftDumbbell = creaManubrio3D(weightMat);
-            leftDumbbell.position.set(0, -0.45, 0);
+            leftDumbbell.position.set(0, -0.38, 0);
             leftArm.add(leftDumbbell);
             characterGroup.add(leftArm);
 
-            // Braccio Destro
+            // Braccio Destro articolato
             rightArm = new THREE.Group();
-            rightArm.position.set(0.38, 0.7, 0);
+            rightArm.position.set(0.38, 0.8, 0);
             const rightArmMesh = new THREE.Mesh(armGeo, skinMat);
-            rightArmMesh.position.y = -0.2;
+            rightArmMesh.position.y = -0.15;
             rightArm.add(rightArmMesh);
 
-            // Manubrio Destro
             rightDumbbell = creaManubrio3D(weightMat);
-            rightDumbbell.position.set(0, -0.45, 0);
+            rightDumbbell.position.set(0, -0.38, 0);
             rightArm.add(rightDumbbell);
             characterGroup.add(rightArm);
 
             scene.add(characterGroup);
 
-            // loop di rendering
             animate();
+        }
+
+        function creaRastrellieraPesi(x, z) {
+            const rackGroup = new THREE.Group();
+            rackGroup.position.set(x, 0, z);
+
+            const ironMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.8 });
+            const plateMat = new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.6 });
+
+            const poleGeo = new THREE.CylinderGeometry(0.04, 0.04, 1.2, 8);
+            const pole = new THREE.Mesh(poleGeo, ironMat);
+            pole.position.y = 0.6;
+            rackGroup.add(pole);
+
+            for(let i=0; i<4; i++) {
+                const plateGeo = new THREE.CylinderGeometry(0.28 - (i*0.02), 0.28 - (i*0.02), 0.08, 16);
+                const plate = new THREE.Mesh(plateGeo, plateMat);
+                plate.position.y = 0.04 + (i * 0.08);
+                rackGroup.add(plate);
+            }
+            scene.add(rackGroup);
         }
 
         function creaManubrio3D(materiale) {
             const group = new THREE.Group();
-            // Barra centrale
-            const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.4, 8);
+            const barGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.38, 8);
             const bar = new THREE.Mesh(barGeo, materiale);
             bar.rotation.z = Math.PI / 2;
             group.add(bar);
-            // Disco sinistro
-            const discGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.06, 16);
+
+            const discGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.07, 16);
             const d1 = new THREE.Mesh(discGeo, materiale);
-            d1.position.x = -0.16;
+            d1.position.x = -0.14;
             d1.rotation.z = Math.PI / 2;
             group.add(d1);
-            // Disco destro
+
             const d2 = new THREE.Mesh(discGeo, materiale);
-            d2.position.x = 0.16;
+            d2.position.x = 0.14;
             d2.rotation.z = Math.PI / 2;
             group.add(d2);
             return group;
@@ -496,14 +556,12 @@
             requestAnimationFrame(animate);
 
             let time = Date.now() * 0.003 * speedAnim;
+            let wave = Math.sin(time) * 0.38 - 0.15;
             
-            // Animazione continua di sollevamento pesi (Oscillazione braccia 3D)
-            let wave = Math.sin(time) * 0.4 - 0.2;
             leftArm.rotation.x = wave;
             rightArm.rotation.x = wave;
 
-            // Rallentamento progressivo se l'utente smette di cliccare
-            if(speedAnim > 1.0) speedAnim -= 0.05;
+            if(speedAnim > 1.0) speedAnim -= 0.04;
 
             renderer.render(scene, camera);
         }
@@ -511,36 +569,35 @@
         function aggiornaTaglia3D(percentuale) {
             if(!torsoMesh) return;
 
-            // Calcolo moltiplicatore di crescita muscolare reale basato sui progressi
-            let scaleFactorX = 1.0 + (percentuale / 100) * 1.5; 
-            let scaleFactorZ = 1.0 + (percentuale / 100) * 1.0; 
+            let scaleFactorX = 1.0 + (percentuale / 100) * 1.4; 
+            let scaleFactorZ = 1.0 + (percentuale / 100) * 0.9; 
 
-            // Espansione Torso
             torsoMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
+            shortsMesh.scale.set(scaleFactorX, 1.0, scaleFactorZ);
             
-            // Spostamento e ingrossamento delle braccia
             leftArm.position.x = -0.28 - (0.1 * scaleFactorX);
             rightArm.position.x = 0.28 + (0.1 * scaleFactorX);
-            leftArm.scale.set(1.0 + (percentuale/100)*0.8, 1.0, 1.0 + (percentuale/100)*0.8);
-            rightArm.scale.set(1.0 + (percentuale/100)*0.8, 1.0, 1.0 + (percentuale/100)*0.8);
+            
+            let armScale = 1.0 + (percentuale / 100) * 0.7;
+            leftArm.scale.set(armScale, 1.0, armScale);
+            rightArm.scale.set(armScale, 1.0, armScale);
 
-            // Ingrossamento del manubrio 3D
-            let weightScale = 1.0 + (percentuale / 100) * 1.3;
+            let weightScale = 1.0 + (percentuale / 100) * 1.2;
             leftDumbbell.scale.set(weightScale, weightScale, weightScale);
             rightDumbbell.scale.set(weightScale, weightScale, weightScale);
 
-            // Cambio colori della scena per effetto Aura "Hacker" / "God"
-            if (percentuale >= 80 || livelloPalestra > 10) {
-                scene.background.setHex(0x1e1b4b); // Sfondo scuro elettrico
+            if (percentuale >= 80 || livelloPalestra > 5) {
+                scene.background.setHex(0x4c1d95); // Aura energetica viola
             } else {
-                scene.background.setHex(0x3b82f6); // Sfondo azzurro classico
+                scene.background.setHex(0x3a4454); 
             }
         }
 
         function caricaSalvataggi() {
             if (localStorage.getItem('andretta_forza') !== null) {
                 forza = parseInt(localStorage.getItem('andretta_forza'));
-                kgPerClickBase = parseInt(localStorage.getItem('andretta_kgclick'));
+                let savedClick = localStorage.getItem('andretta_kgclick');
+                if(savedClick && !isNaN(savedClick)) kgPerClickBase = parseInt(savedClick);
                 kgAlSecondo = parseInt(localStorage.getItem('andretta_kgsecondo'));
                 livelloPalestra = parseInt(localStorage.getItem('andretta_livello'));
                 costoCintura = parseInt(localStorage.getItem('andretta_costo1'));
@@ -563,7 +620,7 @@
         }
 
         function resetGioco() {
-            if(confirm("Vuoi azzerare il tuo eroe 3D della ghisa e ripartire da Noob?")) {
+            if(confirm("Desideri azzerare i tuoi progressi e ricominciare il tuo percorso di allenamento da zero?")) {
                 localStorage.clear();
                 window.location.reload();
             }
@@ -586,10 +643,9 @@
             const badge = document.getElementById("nome-palestra");
             if(livelloPalestra <= 10) {
                 badge.innerText = palestre[livelloPalestra - 1];
-                let col = coloriLivelli[livelloPalestra - 1];
-                badge.style.background = col;
+                badge.style.background = coloriLivelli[livelloPalestra - 1];
             } else {
-                badge.innerText = "MAX 3D HERO GOD 👑";
+                badge.innerText = "MAESTRO DELLA GHISA ASSOLUTO 👑";
                 document.getElementById("main-clicker").disabled = true;
             }
         }
@@ -622,18 +678,17 @@
             let guadagnoEffettivo = Math.round(kgPerClickBase * moltiplicatoreCombo);
             forza += guadagnoEffettivo;
             
-            // Impulso di velocità all'animazione 3D
-            speedAnim = Math.min(speedAnim + 1.2, 7.0);
+            speedAnim = Math.min(speedAnim + 1.4, 7.5);
 
             aggiornaGrafica();
             playSuono(560 + (Math.min(comboHits, 30) * 4), 'sine', 0.04); 
 
-            creaTestoFluttuante("+" + guadagnoEffettivo + "kg");
+            creaTestoFluttuante("+" + guadagnoEffettivo + " kg");
 
-            if (Math.random() < 0.12) lanciaInsulto();
+            if (Math.random() < 0.15) lanciaIncitamento();
 
             salvaProgressi(); 
-            controllaEsplosione();
+            controllaAvanzamento();
         }
 
         const mainBtn = document.getElementById("main-clicker");
@@ -658,10 +713,10 @@
             }
         }, 300);
 
-        function lanciaInsulto() {
+        function lanciaIncitamento() {
             if(modalAttivo) return;
             const fumetto = document.getElementById("fumetto");
-            fumetto.innerText = insulti[Math.floor(Math.random() * insulti.length)];
+            fumetto.innerText = incitamenti[Math.floor(Math.random() * incitamenti.length)];
             fumetto.style.opacity = "1";
             fumetto.style.transform = "translateX(-50%) scale(1)";
             
@@ -669,7 +724,7 @@
             fumettoTimeout = setTimeout(() => {
                 fumetto.style.opacity = "0";
                 fumetto.style.transform = "translateX(-50%) scale(0.8)";
-            }, 1300);
+            }, 1400);
         }
 
         function creaTestoFluttuante(testo) {
@@ -704,7 +759,7 @@
                 forza += kgAlSecondo;
                 aggiornaGrafica();
                 salvaProgressi(); 
-                controllaEsplosione();
+                controllaAvanzamento();
             }
         }, 1000);
 
@@ -724,7 +779,7 @@
                 setupLivelloCorrente();
             } else if (livelloPalestra === 10) {
                 livelloPalestra = 11;
-                forza = 999999999;
+                forza = 99999999;
                 kgAlSecondo = 0;
                 setupLivelloCorrente();
             }
@@ -732,24 +787,24 @@
             aggiornaGrafica();
         }
 
-        function controllaEsplosione() {
+        function controllaAvanzamento() {
             if (modalAttivo || livelloPalestra > 10) return; 
             let traguardo = targetForza[livelloPalestra - 1];
             if (forza >= traguardo) {
                 forza = 0; 
-                playSuono(120, 'sawtooth', 0.4); 
+                playSuono(140, 'sawtooth', 0.35); 
                 
                 setTimeout(() => {
-                    if (livelloPalestra === 1) mostraModal("⭐ ARENA DISINTEGRATA! L'Ingresso della Manhattan crolla sotto i colpi di un vero Pro. Sblocchiamo la Sala Pesi!");
-                    else if (livelloPalestra === 2) mostraModal("⭐ RECORD AGGIORNATO! Sala Pesi spazzata via. Il pavimento a scacchi sta cedendo!");
-                    else if (livelloPalestra === 3) mostraModal("⭐ LIVELLO SUPERATO! Zona specchi ridotta in atomi. La Manhattan sta per implodere...");
-                    else if (livelloPalestra === 4) mostraModal("⭐ DISTRUZIONE TOTALE! L'edificio Manhattan collassa del tutto. Prossimo obiettivo: la provincia!");
-                    else if (livelloPalestra === 5) mostraModal("⭐ APOCALISSE A MELITO! L'incredibile potenza muscolare accumulata ha scatenato un'onda d'urto devastante che ha raso al suolo Melito! Nessuna struttura è rimasta in piedi. Andiamo oltre la civiltà!");
-                    else if (livelloPalestra === 6) mostraModal("⭐ VESUVIO DISINTEGRATO! Hai risvegliato e spento il vulcano a suon di bicipiti e ghisa!");
-                    else if (livelloPalestra === 7) mostraModal("⭐ ONDA EXTRA-ATMOSFERICA! Satelliti in orbita spazzati via dal raggio dei tuoi dorsali!");
-                    else if (livelloPalestra === 8) mostraModal("⭐ FORZA DI GRAVITÀ SUPERATA! Il Sistema Solare ora gira intorno al tuo braccio!");
-                    else if (livelloPalestra === 9) mostraModal("⭐ GALASSIA FRANTUMATA! La Via Lattea si disintegra in polvere stellare.");
-                    else mostraModal("🏆 DIO ASSOLUTO DELLA GHISA! Matteo ha raggiunto lo stadio finale dell'universo. Tutto il Multiverso si fonde sotto i suoi piedi. Gioco Completato! 🔥💪⚡");
+                    if (livelloPalestra === 1) mostraModal("🏆 COMPLIMENTI! Hai superato l'Ingresso della Manhattan. Si aprono le porte della Sala Pesi principale!");
+                    else if (livelloPalestra === 2) mostraModal("🏆 ECCELLENTE! La Sala Pesi della Manhattan è ormai stretta per i tuoi muscoli. Avanza verso l'Area Specchi e Cardio!");
+                    else if (livelloPalestra === 3) mostraModal("🏆 IMPRESSIONANTE! Hai completato la zona specchi. L'intero Edificio della Manhattan ora trema sotto i tuoi piedi!");
+                    else if (livelloPalestra === 4) mostraModal("🏆 DEVASTANTE! La Manhattan è stata conquistata. Espandi il tuo raggio d'azione fino alla città di Melito!");
+                    else if (livelloPalestra === 5) mostraModal("🏆 CITTÀ DOMINATA! Melito ha assistito alla nascita di una leggenda. Ora sfida la potenza lavica del Vesuvio!");
+                    else if (livelloPalestra === 6) mostraModal("🏆 FORZA VULCANICA! Il Vesuvio si è spento di fronte ai tuoi bicipiti. Spingiti oltre l'atmosfera, verso l'Orbita Terrestre!");
+                    else if (livelloPalestra === 7) mostraModal("🏆 ONDA SPAZIALE! L'Orbita Terrestre è tua. Il Sistema Solare intero comincia ad essere attratto dalla tua massa muscolare!");
+                    else if (livelloPalestra === 8) mostraModal("🏆 GRAVITÀ SUPERATA! Il Sistema Solare si piega al tuo volere. Prossima tappa: l'intera Via Lattea!");
+                    else if (livelloPalestra === 9) mostraModal("🏆 GALASSIA CONQUISTATA! La Via Lattea è dominata. Accedi ora alla fase finale: Il Multiverso!");
+                    else mostraModal("👑 DIO SUPREMO DELLA GHISA! Hai completato l'intero percorso d'allenamento e sbloccato il controllo totale del Multiverso! Il tuo corpo ha raggiunto il potenziale massimo. Gioco completato! 🔥💪⚡");
                 }, 100);
             }
         }
@@ -774,7 +829,6 @@
                 let pct = Math.min((forza / traguardo) * 100, 100);
                 pBar.style.width = pct + "%";
                 
-                // Aggiorna la dimensione dei poligoni 3D reali in base alla percentuale!
                 aggiornaTaglia3D(pct);
             } else {
                 pBar.style.width = "100%";
@@ -786,7 +840,6 @@
             document.getElementById("combo-text").innerText = `Moltiplicatore: x${moltiplicatoreCombo.toFixed(1)} (${comboHits} Hit)`;
         }
 
-        // Ridimensionamento adattivo per i cambi di orientamento dello schermo
         window.addEventListener('resize', () => {
             if(!renderer) return;
             const container = document.getElementById('arena');
